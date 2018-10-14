@@ -1,5 +1,5 @@
 // Require stuff
-
+const colors = require('colors')
 const config = require('../config')
 const bot = require('./bot')
 const moment = require('moment')

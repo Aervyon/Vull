@@ -35,12 +35,5 @@ module.exports = bot => ({
         bot.createMessage(msg.channel.id, `${msg.member.username}#${msg.member.discriminator} hugged ${user.mention}`).catch(() => null) // Have them hug the user
       }
     }
-  },
-  help: {
-    type: 'everyone',
-    desc: 'Hug someone in your chat',
-    fullDesc: 'Hug someone in your chat',
-    usage: 'hug (member)',
-    example: 'hug Botto'
   }
 })

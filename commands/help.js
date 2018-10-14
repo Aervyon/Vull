@@ -91,12 +91,5 @@ module.exports = bot => ({
     } else { // If the args are not found in the names array
       bot.createMessage(msg.channel.id, 'Unknown command')
     }
-  },
-  help: {
-    type: 'everyone',
-    desc: 'This help command',
-    fullDesc: 'This help command',
-    example: 'help bot',
-    usage: 'help (command-name)'
   }
 })

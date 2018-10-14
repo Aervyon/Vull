@@ -47,12 +47,5 @@ module.exports = bot => ({
         }).catch(() => null) // Catch createMessage errors
       }).catch(() => bot.createMessage(msg.channel.id, 'Error! Could not find user!\n*Is that even a user id?*')) // Catch the getRESTUser errors
     }
-  },
-  help: {
-    desc: 'Checks for user via the **REST API**',
-    fullDesc: 'Checks for user by id via the **REST** api.',
-    usage: 'isUser [id]',
-    example: 'isUser 323673862971588609',
-    type: 'everyone'
   }
 })

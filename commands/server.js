@@ -49,12 +49,5 @@ module.exports = bot => ({
         }
       }
     }
-  },
-  help: {
-    type: 'owner',
-    desc: 'Adds a server to the database',
-    fullDesc: 'Adds a server to the database (so it can use the prefix command and have custom prefixes)',
-    usage: 'server [server ID]',
-    example: 'server 483040770580807700'
   }
 })

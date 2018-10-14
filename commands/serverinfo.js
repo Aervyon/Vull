@@ -76,10 +76,5 @@ module.exports = bot => ({ // The command
           icon_url: icon[0] }
       }
     }).catch(() => null) // Catch any create message errors
-  },
-  help: {
-    type: 'everyone',
-    desc: 'Gives you the guilds info',
-    fullDesc: 'Gives you the a overview of the guilds info'
   }
 })

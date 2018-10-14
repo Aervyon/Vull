@@ -55,12 +55,5 @@ module.exports = bot => ({
         }
       })
     }
-  },
-  help: {
-    desc: 'Gets a avatar',
-    fullDesc: 'Gets a users avatar and shows it in a embed',
-    type: 'everyone',
-    usage: 'avatar (member)',
-    example: 'avatar Null'
   }
 })

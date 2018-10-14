@@ -22,12 +22,5 @@ module.exports = bot => ({
         }).catch(() => bot.createMessage(msg.channel.id, 'Unable to kick user, please make sure i have the kick members permission and my role is above the highest role of the user you are trying to kick.')).catch(() => null) // If the bot was unable to kick the kicke, tell the user
       }
     }
-  },
-  help: {
-    type: 'admin',
-    desc: 'Kick someone',
-    fullDesc: 'Kick someone from your server',
-    usage: 'kick [member]',
-    example: 'kick Null'
   }
 })

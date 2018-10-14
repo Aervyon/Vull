@@ -51,10 +51,5 @@ module.exports = bot => ({
         footer: { text: `ID: ${randuser.id}` } // The footer
       }
     }).catch(() => null) // Catch any createMessage errors
-  },
-  help: {
-    type: 'everyone',
-    desc: 'Picks a random user',
-    fullDesc: 'Picks a random user out of the server members that are not bots'
   }
 })

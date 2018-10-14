@@ -45,12 +45,5 @@ module.exports = bot => ({
         }
       }).catch(() => null) // Catch any create Message errors
     }
-  },
-  help: {
-    desc: 'Generates a random color',
-    fullDesc: 'Generates a random color. Allows for user inputs to slightly alter the color',
-    type: 'everyone',
-    usage: 'randomcolor (hue/random)',
-    example: 'randomcolor blue'
   }
 })

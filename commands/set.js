@@ -62,12 +62,5 @@ module.exports = bot => ({
     } else if (args[0] && !options.includes(args[0].toLowerCase())) { // Else if args 0 is not an option
       bot.createMessage(msg.channel.id, `Thats not a option, please choose from this list: ${options.join(', ')}`).catch(() => null) // Tell the author thats not a option
     }
-  },
-  help: {
-    type: 'owner', // the type (everyone, owner, or admin)
-    desc: 'Sets the bots name or avatar', // the description
-    fullDesc: 'Sets the bots name or avatar, what else did you expect?', // the full description
-    example: 'set name Screenshot botto', // the example usage
-    usage: 'set [name/username/avatar] [new username/new avatar]' // what it should look like
   }
 })

@@ -7,28 +7,23 @@ module.exports = bot => ({ // The entire command
       embed: { // Create a embed
         title: 'Changelog', // Embed title
         color: Number('0x' + randomColor({ hue: 'orange' }).slice(1)), // The color of the embed
-        description: 'Working on V1.0.0 - Add comments to code, make the bot ready to self host.', // The description of the embed
+        description: 'Last three changes', // The description of the embed
         fields: [ // The embed fields (array)
           {
             name: 'V0.9.9',
-            value: 'Added a bunch more commands'
+            value: 'Added comments, fixed commands, and made the bot work correctly'
           },
           { // The first field object
             name: 'V0.9.8', // The name of this field object
-            value: 'Added a database, autoresponders, some commands (incluing prefix and server)' // The value of this field object
+            value: 'Added a bunch more commands' // The value of this field object
           }, // End a the first object
           { // Second embed object
-            name: 'V0.9.3', // The name
-            value: 'Updated bot command, updated randuser, and added server' // The value
+            name: 'V0.9.8', // The name
+            value: 'Added a database, autoresponders, some commands (incluing prefix and server)' // The value
           } // End of embed object
         ], // End of fields array
         timestamp: new Date() // The timestamp for the embed
       }
     }).catch(() => null) // Catch and createMessage errors.
-  },
-  help: {
-    type: 'everyone',
-    desc: 'Gives you the bots changelog',
-    fullDesc: 'Gives you the bots changelog for the last 3 versions'
   }
 })

@@ -22,10 +22,5 @@ module.exports = bot => ({ // The command
         }
       }
     })
-  },
-  help: {
-    desc: 'Takes a screenshot',
-    fullDesc: 'Takes a screenshot of the owners computer.',
-    type: 'owner'
   }
 })

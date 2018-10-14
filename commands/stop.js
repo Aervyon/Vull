@@ -9,10 +9,5 @@ module.exports = bot => ({ // The command
     }).catch(() => { // Catch the createMesage error
       process.exit() // End the process
     })
-  },
-  help: {
-    type: 'owner',
-    desc: 'Stops the bot',
-    fullDesc: 'Stops the bot. The bot must be running on normal npm/node process.'
   }
 })

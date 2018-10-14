@@ -13,9 +13,9 @@ module.exports = bot => ({ // The command
     role2 = msg.channel.guild.roles.get(role2) || msg.channel.guild.roles.find(role => role.name.startsWith(role2)) || msg.channel.guild.roles.find(role => role.mention === role2) // Redefine role2 as a role
     let hex = args[0] // Define 'hex'
     if (!args.slice(1).join(' ')) bot.createMessage(msg.channel.id, 'I need a role to change the color on').catch(() => null) // If no role, tell the user
+    else if (!role2) bot.createMessage(msg.channel.id, 'I can not find the role.').catch(() => null) // If the bot cannot find the role, tell the author
     else if (role2.id === msg.channel.guild.id) bot.createMessage(msg.channel.id, 'The everyone role cannot be edited').catch(() => null) // If the role equals everyone, tell the user that role cannot be edited
     else if (!hex) bot.createMessage(msg.channel.id, `I need a hex code and a role. I will also take "random" or a hue as a hex \nEx: ${msg.prefix}rolecolor random Bots`).catch(() => null) // If no hex, tell the author there is no hex therefore the bot cannot edit the roles color
-    else if (!role2) bot.createMessage(msg.channel.id, 'I can not find the role.').catch(() => null) // If the bot cannot find the role, tell the author
     else if (Number('0x' + hex) || Number('0x' + hex.slice(1))) { // If 0x + hex
       let hex1 = [] // Define hex1
       if (hex === `#${hex.slice(1)}`) hex1.push(hex.slice(1)) // If hex equals '#' + hex.slice(1), push hex.slice(1) to hex1
@@ -47,12 +47,5 @@ module.exports = bot => ({ // The command
         bot.createMessage(msg.channel.id, 'There was a error editing the role. Please make sure i have the manage roles permission and am higher than the role your trying to edit').catch(() => null) // Tell the author that there was a error while editing the role (via createMessage), and catch all createMessage errors
       })
     }
-  },
-  help: { // the rolecolor command
-    desc: 'Edits a roles color',
-    fullDesc: 'Edits a roles color, based on hue, hex (no # in front), or "random".',
-    type: 'admin',
-    usage: 'rolecolor [hue/random/hex] [role]',
-    example: 'rolecolor orange halloween'
   }
 })

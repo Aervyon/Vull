@@ -26,12 +26,5 @@ module.exports = bot => ({
         }).catch(() => bot.createMessage(msg.channel.id, 'Unable to ban user, please make sure i have the ban members permission and my role is above the user you are trying to ban highest role.')).catch(() => null) // If there was a error, tell the author to check the bots permissions.
       }
     }
-  },
-  help: {
-    type: 'admin',
-    desc: 'Ban someone',
-    fullDesc: 'Ban someone from your server',
-    usage: 'ban [member]',
-    example: 'ban Null'
   }
 })
