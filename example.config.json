@@ -1,0 +1,11 @@
+{
+    "token": "TOKEN",
+    "owner": {
+        "id": "ID",
+        "name": "Username",
+        "discrim": "0000"
+    },
+    "status": "Screenshot bot",
+    "prefix": "s!",
+    "prompt": "on"
+}
