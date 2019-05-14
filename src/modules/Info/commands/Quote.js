@@ -38,6 +38,7 @@ class Quote extends Command {
             return this.editMessage(messg, `${this.axon.configs.template.emote.error} Empty message`);
         }
         mess = mess.embeds[0];
+        if (mess.author) embed.author = mess.author;
         if (mess.description) embed.description = mess.description;
         if (mess.title) embed.title = mess.title;
         if (mess.image) embed.image = mess.image;
