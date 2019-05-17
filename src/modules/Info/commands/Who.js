@@ -105,7 +105,7 @@ class Who extends Command {
         if (args[0] ) {
             mem = Resolver.member(msg.channel.guild, args.join(' ') );
             if (!mem) {
-                if (args[0].match(/\d+/) ) {
+                if (args[0].match(/^\d+$/) ) {
                     return this.restUser(msg, args[0] );
                 }
                 return this.sendMessage(msg.channel, `${this.axon.configs.template.emote.error} User not found!`);
