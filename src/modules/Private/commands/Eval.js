@@ -24,6 +24,7 @@ class Eval extends Command {
     }
 
     async execute( { msg, args, /* eslint-disable */ guildConf /*eslnt-enable*/ } ) {
+        let errored = 0;
         let evaled;
         try {
             evaled = await eval(args.join(' ') );
@@ -37,7 +38,10 @@ class Eval extends Command {
                 }
             }
 
-            if (evaled.length === 0 || !evaled) return this.sendMessage(msg.channel, 'No output!');
+            if (evaled.length === 0 || !evaled) {
+                errored = 1;
+                return this.sendMessage(msg.channel, 'No output!');
+            }
 
             evaled = evaled.split(this.axon.client.token).join('NO TOKEN');
 
@@ -55,14 +59,17 @@ class Eval extends Command {
                     }
                     return Promise.resolve();
                 } catch (err) {
+                    errored = 1;
                     console.log('Something happened! See below');
                     console.error(err);
                     return Promise.resolve()
                 }
             }
         } catch (err) {
+            errored = 1;
             return this.sendMessage(msg.channel, `Eval errored. Check below\n${err.message || err}`);
         } finally {
+            if (errored > 0) return Promise.resolve();
             return this.sendMessage(msg.channel, `\`\`\`js\n${evaled}\`\`\``);
         }
     }

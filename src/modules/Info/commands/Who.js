@@ -29,12 +29,6 @@ class Who extends Command {
 
     acknowledgements(member, guildConf) {
         const acks = [];
-        if (this.axon.AxonUtils.isAdmin(member) ) {
-            acks.push('Server Administrator');
-        } else if (this.axon.AxonUtils.isMod(member, guildConf) ) {
-            acks.push('Server Moderator');
-        }
-
         if (member.id === '323673862971588609') {
             acks.push('Developer');
         }
@@ -44,7 +38,48 @@ class Who extends Command {
         } else if (this.axon.AxonUtils.isBotAdmin(member.id) ) {
             acks.push('Bot Admin');
         }
+
+        if (guildConf && this.axon.AxonUtils.isAdmin(member) ) {
+            acks.push('Server Administrator');
+        } else if (guildConf && this.axon.AxonUtils.isMod(member, guildConf) ) {
+            acks.push('Server Moderator');
+        }
         return acks;
+    }
+
+    async restUser(msg, id) {
+        let user;
+        try {
+            user = await this.axon.client.getRESTUser(id);
+        } catch (err) {
+            const er = err.message || err;
+            if (er.match('[10013]: Unknown User') ) {
+                return this.sendError(msg.channel, 'User not found via REST!');
+            }
+            if (er.match(/is not snowflake$/) ) {
+                return this.sendError(msg.channel, 'Invalid ID - User cannot be found');
+            }
+            return this.sendError(msg.channel, `An error occured while fetching the user. This might be useful:\`\`\`js\n${er}\`\`\``);
+        }
+        const acks = this.acknowledgements(user);
+        const embed = {
+            title: 'Who',
+            description: `${user.username}#${user.discriminator} (${user.id})`,
+            fields: [
+                {
+                    name: 'Notice',
+                    value: 'User found via Rest (Not in guild)',
+                },
+            ],
+            color: this.axon.configs.template.embed.colors.help,
+        };
+        if (acks.length > 0) {
+            embed.fields.push( {
+                name: 'Acknowledgements',
+                value: acks.join(', '),
+            } );
+        }
+        return this.sendMessage(msg.channel, { embed } );
     }
 
     getPerms(member) {
@@ -58,11 +93,21 @@ class Who extends Command {
         return perms;
     }
 
+    joins(msg, member) {
+        let joins = msg.channel.guild.members.map(m => m);
+        joins = joins.sort( (a, b) => a.joinedAt - b.joinedAt);
+        joins = joins.map(m => m.id);
+        return joins.indexOf(member.id) + 1;
+    }
+
     execute( { msg, args, guildConf } ) {
         let mem = msg.member;
         if (args[0] ) {
             mem = Resolver.member(msg.channel.guild, args.join(' ') );
             if (!mem) {
+                if (args[0].match(/\d+/) ) {
+                    return this.restUser(msg, args[0] );
+                }
                 return this.sendMessage(msg.channel, `${this.axon.configs.template.emote.error} User not found!`);
             }
         }
@@ -102,6 +147,13 @@ class Who extends Command {
                 inline: true,
             } );
         }
+        if (!mem.bot) {
+            base.fields.push( {
+                name: 'Join Position',
+                value: this.joins(msg, mem).toString(),
+                inline: true,
+            } );
+        }
         if (mem.game) {
             const types = {
                 0: 'Playing',
@@ -131,11 +183,19 @@ class Who extends Command {
                 } );
             }
         }
+        if (acks.includes('Server Administrator') ) {
+            base.fields.push( {
+                name: 'Permissions',
+                value: 'The ones that matter',
+                inline: true,
+            } );
+        }
 
         if (mem.roles && mem.roles.length > 0) {
             let roles = msg.channel.guild.roles.filter(r => mem.roles.includes(r.id) );
             roles = this.axon.Utils.sortRoles(roles);
-            base.color = roles[0].color || null;
+            const color = roles.find(r => r.color !== 0);
+            base.color = (color && color.color) || null;
             const rolz = [];
             for (const role of roles) {
                 rolz.push(role.mention);
