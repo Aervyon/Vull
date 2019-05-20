@@ -141,7 +141,7 @@ class Game extends Command {
         if (args[0] ) {
             member = Resolver.member(msg.channel.guild, args.join(' ') );
             if (!member) {
-                this.sendError('Command Failed => User not found!');
+                this.sendError(msg.channel, 'Command Failed => User not found!');
             }
         }
 
