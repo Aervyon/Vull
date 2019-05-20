@@ -24,19 +24,27 @@ class Channel extends Command {
         if (!args[0]) {
             return this.sendHelp(msg);
         }
+
+        let failsafe = true;
+
         const channel = Resolver.channel(msg.channel.guild, args[0] );
+        args.shift();
+        if (['--no-failsafe', '-nfs'].includes(args[0].toLowerCase())) {
+            failsafe = false;
+            args.shift();
+        }
 
         try {
             await msg.delete()
         } catch {
-            if (msg.channel.messages.get(msg.id) ) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
+            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
         }
 
         if (!channel) {
             return this.sendError(msg.channel, 'Command failed => Channel not found!');
         }
 
-        const total = args.slice(1).join(' ');
+        const total = args.join(' ');
 
         return this.sendMessage(channel, total);
     }

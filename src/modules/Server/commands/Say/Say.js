@@ -24,11 +24,16 @@ class Say extends Command {
     }
 
     async execute( { msg, args } ) {
+        let failsafe = true;
+        if (['--no-failsafe', '-nfs'].includes(args[0].toLowerCase())) {
+            failsafe = false;
+            args.shift();
+        }
 
         try {
             await msg.delete()
         } catch {
-            if (msg.channel.messages.get(msg.id) ) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
+            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
         }
 
         const total = args.join(' ');
