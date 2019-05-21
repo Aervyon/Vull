@@ -7,6 +7,7 @@ package-lock.json
 
 yarn-lock.json
 
-# Ignore token config file
+# Ignore token/mongo config file
 
 src/configs/tokenConf.json
+src/configs/mongoConf.json

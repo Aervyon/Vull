@@ -1,14 +1,22 @@
 import Bot from './Bot';
 import conf from './configs/customConf.json';
 import moment from 'moment';
+import { existsSync } from 'fs';
+import path from 'path';
 const momentDuration = require('moment-duration-format');
+
+let mongoURL = 'mongodb://localhost/';
+
+if (existsSync(path.join(__dirname, './configs/mongoConf.json') ) ) {
+    mongoURL = require('./configs/mongoConf').url;
+}
 
 momentDuration(moment);
 
 if (conf.db === 1) { // eslint-disable-line no-magic-numbers
     try {
         const mongoose = require('mongoose');
-        mongoose.connect('mongodb://localhost/Vull', {
+        mongoose.connect(`${mongoURL}Vull`, {
             useNewUrlParser: true,
             useFindAndModify: false,
             useCreateIndex: true,
