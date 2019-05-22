@@ -14,7 +14,14 @@ class Game extends Command {
         };
     }
 
-    game(member) {
+    game(member, msg) {
+        let color = this.axon.configs.template.embed.colors.help;
+        if (member.roles && member.roles.length > 0) {
+            let roles = msg.channel.guild.roles.filter(r => member.roles.includes(r.id) );
+            roles = this.axon.Utils.sortRoles(roles);
+            const ncolor = roles.find(r => r.color !== 0);
+            color = (ncolor && ncolor.color) || this.axon.configs.template.embed.colors.help;
+        }
         const fields = [];
         const types = {
             0: 'Playing',
@@ -25,7 +32,7 @@ class Game extends Command {
         const mess = {
             embed: {
                 title: 'Game',
-                color: this.axon.configs.template.embed.colors.help,
+                color,
                 footer: { text: `${member.user.username}#${member.user.discriminator}`, icon_url: member.avatarURL },
             },
         };
@@ -111,7 +118,7 @@ class Game extends Command {
                     url: 'https://spotify.com',
                 },
                 description: `${listened}/${moment.duration(total, 'milliseconds').format('m[:]ss')}`,
-                color: this.axon.configs.template.embed.colors.help,
+                color: 4718471,
                 fields: [
                     {
                         name: 'Song',
@@ -145,7 +152,7 @@ class Game extends Command {
             }
         }
 
-        const game = this.game(member);
+        const game = this.game(member, msg);
         return this.sendMessage(msg.channel, game);
     }
 }
