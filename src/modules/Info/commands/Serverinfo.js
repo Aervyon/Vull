@@ -10,6 +10,8 @@ class Serverinfo extends Command {
             owners: ['Null'],
             description: 'Get the servers information',
         };
+
+        this.options.guildOnly = true;
     }
 
     execute( { msg } ) {

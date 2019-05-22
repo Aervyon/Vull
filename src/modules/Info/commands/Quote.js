@@ -11,7 +11,7 @@ class Quote extends Command {
             usage: 'quote [messageID] [channel]',
             examples: ['quote 577706024459567125', 'quote 577706024459567125 Testing'],
         };
-        this.argsMin = 1;
+        this.options.argsMin = 1;
         this.options.guildOnly = true;
     }
 
