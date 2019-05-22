@@ -16,6 +16,8 @@ class Enable extends Command {
         this.guildOnly = true;
 
         this.permissions.serverAdmin = true;
+
+        this.serverBypass = true;
     }
 
     async execute( { msg, args, guildConf } ) {

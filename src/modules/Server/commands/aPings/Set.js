@@ -26,7 +26,7 @@ class Settings extends Command {
         // Handle MISC things
         this.options.guildOnly = true;
         this.permissions.serverAdmin = true;
-        this.argsMin = 1;
+        this.options.argsMin = 1;
     }
 
     async execute( { msg, args, guildConf } ) {

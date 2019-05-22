@@ -15,6 +15,8 @@ class Disable extends Command {
         this.options.argsMin = 2;
         this.guildOnly = true;
 
+        this.serverBypass = true;
+
         this.permissions.serverAdmin = true;
     }
 

@@ -13,6 +13,8 @@ class Diagnose extends Command {
         };
 
         this.permissions.serverMod = true;
+
+        this.serverBypass = true;
     }
 
     execute( { msg, args, guildConf } ) {
