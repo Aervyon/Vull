@@ -17,6 +17,11 @@ class Gdisable extends Command {
 
         this.permissions.staff.needed = this.axon.staff.admins;
         this.permissions.staff.bypass = this.axon.staff.owners;
+        this.protectedCmds = [
+            'diagnose',
+            'disable',
+            'enable',
+        ];
     }
 
     async execute( { msg, args, guildConf } ) {
@@ -24,6 +29,8 @@ class Gdisable extends Command {
             case 'command': {
                 let command = this.getCommand(args[1] );
                 if (!command) return this.sendError(msg.channel, 'Command not found!');
+                if (command.module.label === this.module.label) return this.sendError(msg.channel, `Commands within the \`${this.module.label}\` module cannot be disabled via command!`);
+                if (this.protectedCmds.includes(command.label) ) return this.sendError(msg.channel, `Command \`${command.label}\` cannot be disabled as that is a core management command for Vull`);
                 if (!command.enabled) return this.sendError(msg.channel, 'Command already disabled!');
                 try {
                     this.axon.AxonUtils.updateGlobalStateCommand(args[1], false);
@@ -39,6 +46,7 @@ class Gdisable extends Command {
             case 'module': {
                 let modul = this.getModule(args[1] );
                 if (!modul) return this.sendError(msg.channel, 'Module not found!');
+                if (modul.label === this.module.label) return this.sendError(msg.channel, `The \`${this.module.label}\` module cannot be disabled via command!`);
                 if (!modul.enabled) return this.sendError(msg.channel, 'Module already disabled');
                 try {
                     this.axon.AxonUtils.updateGlobalStateModule(args[1], false);
