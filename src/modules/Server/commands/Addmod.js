@@ -35,10 +35,8 @@ class Addmod extends Command {
 
         const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
-        if (type === 'User' && !gConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, 'Something went wrong when adding them to the moderator list!');
         if (type === 'role') {
             adj = 'Role';
-            if (!gConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, 'Something went wrong when adding the role to the moderator list!');
         }
         return this.sendSuccess(msg.channel, `Added ${adj} to the moderator list!`);
     }
