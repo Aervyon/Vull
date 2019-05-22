@@ -35,10 +35,8 @@ class Delmod extends Command {
 
         const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
-        if (type === 'User' && gConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, 'Something went wrong when removing them from the moderator list!');
         if (type === 'role') {
             adj = 'Role';
-            if (!gConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, 'Something went wrong when removing the role from the moderator list!');
         }
         return this.sendSuccess(msg.channel, `Removed ${adj} from the moderator list!`);
     }
