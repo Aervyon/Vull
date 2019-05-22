@@ -6,3 +6,5 @@ export { default as Apings } from './aPings/aPings';
 export { default as Disable } from './Disable';
 export { default as Enable } from './Enable';
 export { default as Diagnose } from './Diagnose';
+export { default as Addmod } from './Addmod';
+export { default as Delmod } from './Delmod';
