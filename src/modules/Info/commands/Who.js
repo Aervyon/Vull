@@ -24,6 +24,7 @@ class Who extends Command {
             'manageChannels',
             'manageMessages',
             'kickMembers',
+            'manageGuild',
         ];
     }
 
@@ -39,8 +40,10 @@ class Who extends Command {
             acks.push('Bot Admin');
         }
 
-        if (guildConf && this.axon.AxonUtils.isAdmin(member) ) {
+        if (guildConf && member.permission.has('administrator') ) {
             acks.push('Server Administrator');
+        } else if (guildConf && member.permission.has('manageGuild') ) {
+            acks.push('Server Manager');
         } else if (guildConf && this.axon.AxonUtils.isMod(member, guildConf) ) {
             acks.push('Server Moderator');
         }
@@ -177,7 +180,7 @@ class Who extends Command {
             const perms = this.getPerms(mem);
             if (perms.length > 0) {
                 base.fields.push( {
-                    name: `Permissions`,
+                    name: `Notable Permissions`,
                     value: perms.join(', '),
                     inline: true,
                 } );
@@ -186,7 +189,7 @@ class Who extends Command {
         if (acks.includes('Server Administrator') ) {
             base.fields.push( {
                 name: 'Permissions',
-                value: 'The ones that matter',
+                value: 'All of them',
                 inline: true,
             } );
         }
