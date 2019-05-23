@@ -31,7 +31,7 @@ class SafeEval extends Command {
         }
         for (const banned of this.bannedWords) {
             const check = args.filter(arg => arg.includes(banned) );
-            if (check) {
+            if (check && check.length > 0) {
                 return this.sendError(msg.channel, 'No');
             }
         }
