@@ -67,7 +67,7 @@ class Eval extends Command {
             }
         } catch (err) {
             errored = 1;
-            return this.sendMessage(msg.channel, `Eval errored. Check below\n${err.message || err}`);
+            return this.sendMessage(msg.channel, `Eval errored. Check below\`\`\`js\n${err.message || err}\`\`\``);
         } finally {
             if (errored > 0) return Promise.resolve();
             return this.sendMessage(msg.channel, `\`\`\`js\n${evaled}\`\`\``);
