@@ -11,3 +11,7 @@ yarn.lock
 
 src/configs/tokenConf.json
 src/configs/mongoConf.json
+
+# Ignore logs
+
+logs/
