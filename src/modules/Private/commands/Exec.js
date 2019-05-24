@@ -40,7 +40,7 @@ class Execute extends Command {
         if (endOut.length > 1900) {
             endOut = this.axon.AxonUtils.splitMessage(endOut);
         }
-        message.edit(!errored ? `Output for ${args.join(' ')}:` : 'An error occured. See error below:');
+        message.edit(!errored ? `Output for \`\`${args.join(' ')}\`\`:` : 'An error occured. See error below:');
 
         return this.sendMessage(msg.channel, `\`\`\`sh\n${endOut}\`\`\``);
     }
