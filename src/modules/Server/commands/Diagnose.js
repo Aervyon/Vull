@@ -41,7 +41,7 @@ class Diagnose extends Command {
             case 'module': {
                 const modul = this.getModule(args[1] );
                 if (!modul) return this.sendError(msg.channel, 'Module not found!');
-                let output = guildConf.commands.includes(args[1] ) ? 'Module is disabled' : 'Module is enabled';
+                let output = guildConf.modules.includes(args[1] ) ? 'Module is disabled' : 'Module is enabled';
                 if (modul.enabled === false) output = 'Module is globally disabled';
                 const color = ['Module is disabled', 'Module is globally disabled'].includes(output) ? this.axon.template.embed.colors.error : this.axon.template.embed.colors.success;
 
