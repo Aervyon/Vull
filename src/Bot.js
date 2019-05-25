@@ -7,8 +7,6 @@ import templateConf from './configs/templateConf.json';
 
 import Guild from '../models/Guild';
 
-console.log(Guild);
-
 const AxonOptions = {
     axonConf,
     templateConf,

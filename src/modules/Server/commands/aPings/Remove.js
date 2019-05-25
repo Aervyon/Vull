@@ -41,9 +41,7 @@ class Remove extends Command {
 
         if (!users.includes(mention) ) return this.sendError(msg.channel, `${interjection} are not subscribed to aPings!`);
 
-        console.log(users);
         users = users.filter(m => m !== mention);
-        console.log(users);
 
         const Guild = this.axon.schemas.get('guildSchema');
 
