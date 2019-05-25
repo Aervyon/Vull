@@ -38,7 +38,7 @@ class Warn extends Command {
         let message = `***Warned ${user.user.username}#${user.user.discriminator}***`;
         try {
             const dmChan = await this.axon.client.getDMChannel(user.id);
-            await this.axon.sendMessage(dmChan, reason);
+            await this.axon.sendMessage(dmChan, `You were warned in \`${msg.channel.guild.name}\`: ${reason}`);
         } catch (err) {
             const er = err.message || err;
             if (er.match(/Cannot send messages to this user$/) ) message = 'Could not DM user. Logged warn.';
