@@ -42,13 +42,9 @@ class Info extends Command {
                         inline: true,
                     }, {
                         name: 'Library',
-                        value: 'Eris | AxonCore',
+                        value: '[Eris](https://abal.moe/Eris/) | [AxonCore](https://khaazz.github.io/AxonCore/)',
                         inline: true,
-                    }, {
-                        name: 'Version',
-                        value: 'V1.5 - V2 (The AxonCore rewrite)',
-                        inline: true,
-                    }, {
+                    },{
                         name: 'Uptime',
                         value: moment.duration(this.axon.client.uptime).format('MMMM [Months,] WW [Weeks,] DD [Days,] h [Hours,] m [Minutes,] s [Seconds]'),
                         inline: true,

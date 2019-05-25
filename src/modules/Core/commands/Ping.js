@@ -36,7 +36,7 @@ class Ping extends Command {
 
         const diff = (Date.now() - start);
 
-        return this.editMessage(mess, `Pong! \`${diff}ms\``);
+        return this.editMessage(mess, `Pong! \`${diff}\`ms`);
     }
 }
 

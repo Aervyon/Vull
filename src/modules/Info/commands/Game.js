@@ -36,12 +36,7 @@ class Game extends Command {
                 footer: { text: `${member.user.username}#${member.user.discriminator}`, icon_url: member.avatarURL },
             },
         };
-        if (!member.game) {
-            mess.embed.title = 'Game: Error';
-            mess.embed.description = `${member.user.username} Is not playing any game!`;
-            mess.embed.color = this.axon.configs.template.embed.colors.error;
-            return mess;
-        }
+        if (!member.game) return `${this.axon.configs.template.emote.error} ${member.user.username} is not playing any game!`;
         mess.embed.title = `${member.user.username} is ${types[member.game.type]} ${member.game.name}`;
         if (member.game.name === 'Spotify') {
             return this.spotifyGame(member, mess.embed.title);
@@ -148,7 +143,7 @@ class Game extends Command {
         if (args[0] ) {
             member = Resolver.member(msg.channel.guild, args.join(' ') );
             if (!member) {
-                this.sendError(msg.channel, 'Command Failed => User not found!');
+                this.sendError(msg.channel, 'User not found!');
             }
         }
 

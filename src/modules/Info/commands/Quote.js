@@ -21,7 +21,6 @@ class Quote extends Command {
             mess = await this.axon.client.getMessage(channel.id, mID);
         } catch (err) {
             const er = err.message || err;
-            this.axon.Logger.error(er);
             if (er.search(/(\[10008]: Unknown Message)$/) ) { // If there is no message
                 this.sendError(msg.channel, 'Message not found!');
                 return 'fail';
@@ -96,6 +95,7 @@ class Quote extends Command {
         if (mess.author) embed.author = mess.author;
         if (mess.description) embed.description = mess.description;
         if (mess.title) embed.title = mess.title;
+        if (mess.url) embed.url = mess.url;
         if (mess.image) embed.image = mess.image;
         if (mess.thumbnail) embed.thumbnail = mess.thumbnail;
         if (mess.footer) embed.footer = mess.footer;
