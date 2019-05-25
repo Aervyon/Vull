@@ -9,7 +9,6 @@ class Serrver extends Module {
         this.label = 'Server';
 
         this.enabled = true;
-        this.serverBypass = true;
 
         this.infos = {
             name: 'Server',
