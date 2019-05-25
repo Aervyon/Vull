@@ -42,6 +42,12 @@ const guildSchema = new Schema( {
 
     apings: { type: Object, default: {} },
 
+    modLogChannel: { type: String, default: null },
+    modLogStatus: { type: Boolean, default: false },
+    cases: { type: Array, default: [] },
+
+    protectedRoles: { type: Array, default: [] },
+
 }, {
     autoIndex: true,
     minimize: false,
