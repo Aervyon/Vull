@@ -26,14 +26,16 @@ class Ban extends Command {
     async execute( { msg, args, guildConf } ) {
         const user = Resolver.member(msg.channel.guild, args[0] );
         if (!user) return this.sendError(msg.channel, 'Member not found!');
-
-        if (this.axon.AxonUtils.isAdmin(msg.channel.guild, user) || this.axon.AxonUtils.isMod(user, guildConf) ) return this.sendError(msg.channel, 'That user is a mod/admin!');
+        if (this.axon.AxonUtils.isAdmin(user) || this.axon.AxonUtils.isMod(user, guildConf) ) {
+            return this.sendError(msg.channel, 'That user is a mod/admin!');
+        }
         if (user.roles && guildConf.protectedRoles && guildConf.protectedRoles.length > 0) {
             for (const role of guildConf.protectedRoles) {
                 const check = user.roles.includes(role);
                 if (check) return this.sendError(msg.channel, 'User is protected!');
             }
         }
+        console.log('Perms checked');
         msg.delete();
 
         const reason = args[1] ? args.slice(1).join(' ') : 'No reason';

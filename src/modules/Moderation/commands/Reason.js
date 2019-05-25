@@ -35,6 +35,8 @@ class Reason extends Command {
                 embed: {
                     title: message.embeds[0].title,
                     fields,
+                    color: message.embeds[0].color,
+                    footer: message.embeds[0].footer,
                 },
             } );
         }
