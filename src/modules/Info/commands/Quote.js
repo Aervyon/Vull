@@ -41,8 +41,8 @@ class Quote extends Command {
     }
 
     async execute( { msg, args } ) {
-        let mess;
-        let content;
+        let mess,
+            content;
         const embed = {};
         let { channel } = msg;
         if (args[1] ) {
@@ -60,6 +60,12 @@ class Quote extends Command {
                 ncontent = mess.content.replace(/<@!?|>/g, '');
             }
             content = ncontent;
+        }
+        let color = this.axon.configs.template.embed.colors.help;
+        if (msg.channel.guild.roles && msg.channel.guild.roles.size > 0) {
+            let roles = msg.channel.guild.roles.filter(r => r.color !== 0);
+            roles = this.axon.Utils.sortRoles(roles);
+            color = roles[0].color || color;
         }
         const fmess = mess;
         if (!mess.embeds || mess.embeds.length === 0) {
@@ -84,7 +90,7 @@ class Quote extends Command {
                                 inline: true,
                             },
                         ],
-                        color: this.axon.configs.template.embed.colors.help,
+                        color,
                     },
                 } );
                 return this.sendMessage(msg.channel, content);
@@ -124,7 +130,7 @@ class Quote extends Command {
                         inline: true,
                     },
                 ],
-                color: this.axon.configs.template.embed.colors.help,
+                color,
             },
         } );
         const obj = {};
