@@ -19,7 +19,6 @@ class Ban extends Command {
         this.permissions.bot = [
             'kickMembers',
             'sendMessages',
-            'manageMessages',
         ];
     }
 
@@ -36,7 +35,7 @@ class Ban extends Command {
             }
         }
         console.log('Perms checked');
-        msg.delete();
+        msg.delete().catch(() => { /* --- */ })
 
         const reason = args[1] ? args.slice(1).join(' ') : 'No reason';
 
