@@ -1,8 +1,8 @@
 {
     "general": {
         "name": "Vull",
-        "description": "A bot developed using the AxonCore Framework",
-        "version": "Rewrite",
+        "description": "A multipurpose bot *mainly* aimed at moderation.",
+        "version": "2",
         "library": "Eris"
     },
     

@@ -30,14 +30,14 @@ class Info extends Command {
         this.sendMessage(msg.channel, {
             embed: {
                 title: 'Info',
-                description: `Vull V2 made by ${maker}`,
+                description: `Vull V${this.axon.infos.version} made by ${maker}\n${this.axon.infos.description}`,
                 fields: [
                     {
                         name: 'Node Version',
                         value: process.version,
                         inline: true,
                     }, {
-                        name: 'Guild prefix',
+                        name: 'Prefix',
                         value: `\`\`${guildConf.prefix[0] || this.axon.params.prefix[0]}\`\``,
                         inline: true,
                     }, {
