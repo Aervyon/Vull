@@ -19,7 +19,6 @@ class Ban extends Command {
         this.permissions.bot = [
             'banMembers',
             'sendMessages',
-            'manageMessages',
         ];
     }
 
@@ -41,7 +40,7 @@ class Ban extends Command {
         if (!user) {
             return this.sendError(msg.channel, 'User not found!');
         }
-        msg.delete();
+        msg.delete().catch(() => { /* --- */ });
 
         const reason = args[1] ? args.slice(1).join(' ') : 'No Reason';
         if (user.joinedAt) {
