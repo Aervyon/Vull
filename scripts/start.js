@@ -10,7 +10,7 @@ pm2.connect( (err) => {
     pm2.start( {
         script: 'main.js',
         args: ['--color'],
-        name: 'VV2',
+        name: 'Vull',
         exec_mode: 'fork',
         max_memory_restart: '1G',
         cwd: 'src',
