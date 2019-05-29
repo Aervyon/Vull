@@ -1,0 +1,3 @@
+{
+    "extends": "@axonteam/eslint-config-axonteam"
+}

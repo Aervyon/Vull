@@ -1,30 +1,31 @@
 # Vull
 
-A simple bot i made because i was bored
+Vull is a bot mainly aimed at moderation. It has some other commands for info but that is really it.
+Vull is meant to be minimal.
 
-# What you need
+# Consider this.
 
-- MongoDB
-- Nodejs V8 or higher
-- A text editor capable of editing files
-- [Discord](https://discordapp.com/download)
-- A Discord bot application
+If you change the logger to 0 in `src/configs/customConf.json` Vull **will** break. It requires MongoDB to function properly.
 
-# Once you have the bot
+If you edit the version in `src/configs/customConf.json` Vull will then proceed to show innacurate versioning.
 
-Run ```sh
-npm install```
-To install all dependencies required by the bot
+# Setting up your token
 
-# About the config
+Create a `templateConf.json` file in the `src/configs` directory.
+Edit the config file to look something like this:
+```
+{
+    "bot": {
+        "token": "You're token here"
+    }
+}
+```
+Replace `You're token here` with your bots token.
 
-You need everything in the config.
+# Configs
 
-- config.owner # Tells the bot who is the bots owner (So you can access owner only commands)
-- > `config.owner.id` # Your ID
-- > `config.owner.name` # Your name
-- > `config.owner.discrim` # Your discriminator
-- `config.token` # Tells the bot what the token of the app your going to use is
-- `config.prefix` # Tells the bot what prefix you want it to have
-- `config.status` # Tells the bot what status you want it to have
-- `config.mongURL` # The url for mongoDB/mongoose to use/connect to.
+Anything else in the config is yours to play around with.
+
+# Liability
+
+I, Null#0515 (VoidNulll) take no responsibility for you're own actions, corrupted files, personal loss, or any sort of damages caused to you, you're company, or you're device. You are responsible for your actions on the internet and with what you run.

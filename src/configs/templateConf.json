@@ -1,0 +1,33 @@
+{
+    "embed": {
+        "colors": {
+            "help": 16579836,
+            "global": 4315874,
+            "error": 15844367,
+            "success": 1628997
+        }
+    },
+    "logs": {
+        "bad": 16729927,
+        "good": 4718456,
+        "neutral": 16751633
+    },
+
+    "emote": {
+        "error": "<:redTick:576608657794662405>",
+        "success": "<a:check:577288688019701771>",
+        "loading": "<a:loadingBars:552880726853550082>",
+        "update": "<:update:373546418952077323>",
+        "info": ":information_source:"
+    },
+
+    "message": {
+        "error": {
+            "permBot": "I don't have permission to that. I'm missing: ",
+            "permSource": "You don't have permission to do that. You're missing: ",
+            "permTarget": "This user is a mod/admin, I can't do that.",
+            "cooldown": "You're using commands too fast.",
+            "general": "An error occurred. If this error persists, please join the development server at <https://discord.gg/X4Rsd5s>"
+        }
+    }
+}
