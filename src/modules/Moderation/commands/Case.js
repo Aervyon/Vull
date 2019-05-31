@@ -87,10 +87,10 @@ class ModCase extends Command {
                 const message = await this.axon.client.getMessage(mCase.cID, mCase.mID);
                 embed = this.rebuildEmbed(message);
             } catch (err) {
-                embed = this.genEmbed(mCase);
+                embed = await this.genEmbed(mCase, msg.channel.guild);
             }
         } else {
-            embed = this.genEmbed(mCase);
+            embed = await this.genEmbed(mCase, msg.channel.guild);
         }
         return this.sendMessage(msg.channel, { embed } );
     }
