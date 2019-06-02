@@ -32,7 +32,7 @@ class Massban extends Command {
             let add = true;
             let user = Resolver.member(msg.channel.guild, id) || Resolver.user(this.axon.client, id);
             if (!user && id.match(/^\d+$/) ) {
-                user = await this.axon.client.getRESTUser(id);
+                user = await this.axon.client.getRESTUser(id)
                     .catch( () => {
                         add = false;
                     } );
