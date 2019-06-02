@@ -25,7 +25,11 @@ class ModCase extends Command {
         const mod = guild.members.get(modcase.mod);
 
         const good = ['unban'];
-        const bad = ['ban', 'kick'];
+        const bad = [
+            'ban',
+            'kick',
+            'massban',
+        ];
         const neutral = ['warn'];
 
         const colors = {

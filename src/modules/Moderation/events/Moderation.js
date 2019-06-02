@@ -42,8 +42,7 @@ class Moderation extends Event {
         if (bad.includes(modcase.type) ) color = colors.bad;
         if (neutral.includes(modcase.type) ) color = colors.neutral;
 
-        this.axon.updateGuildConf(guildConf.guildID, guildConf);
-        if (!channel) return;
+        if (!channel && modcase.type !== 'massban') return this.axon.updateGuildConf(guildConf.guildID, guildConf);;
         const embed = {
             title: `Moderation | ${type} | ID: ${modcase.id}`,
             fields: [
@@ -75,12 +74,11 @@ class Moderation extends Event {
         const message = await this.sendMessage(channel, {
             embed,
         } );
-        if (modcase.type !== 'massban') {
-            modcase.mID = message.id;
-            modcase.cID = message.channel.id;
-            guildConf.cases.push(modcase);
-            this.axon.updateGuildConf(guildConf.guildID, guildConf);
-        }
+        if (modcase.type === 'massban') return;
+        modcase.mID = message.id;
+        modcase.cID = message.channel.id;
+        guildConf.cases.push(modcase);
+        this.axon.updateGuildConf(guildConf.guildID, guildConf);
     }
 }
 

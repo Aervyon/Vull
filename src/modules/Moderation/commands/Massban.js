@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { Command, Resolver } from 'axoncore';
 
 class Massban extends Command {
@@ -25,7 +26,10 @@ class Massban extends Command {
         const ids = args[0].split(' ');
         const reason = args[1] || 'No Reason';
 
+        msg.delete().catch( () => { /* -- */ } );
+
         if (ids.length === 1) return this.sendError(msg.channel, 'You must supply more than one person to ban');
+        if (ids.length > 20) return this.sendError(msg.channel, 'Too many users.');
 
         const users = [];
         for (const id of ids) {
@@ -58,12 +62,15 @@ class Massban extends Command {
         let errored = 0;
         let startID,
             modcase;
+        const descrip = `${this.axon.configs.template.emote.loading} Massbanning...`;
+        const message = await this.sendMessage(msg.channel, descrip);
         for (const user of users) {
             const startError = errored;
             try {
                 await msg.channel.guild.banMember(user, 7, reason);
                 success++;
-                await this.axon.Utils.sleep(3000);
+                message.edit(`${descrip} (${success}/${users.length})`);
+                await this.axon.Utils.sleep(1000);
             } catch (e) {
                 errored++;
             }
@@ -93,7 +100,8 @@ class Massban extends Command {
             color = roles[0].color || color;
         }
 
-        return this.sendMessage(msg.channel, {
+        return message.edit( {
+            content: '',
             embed: {
                 title: 'Massban complete',
                 description: desc,

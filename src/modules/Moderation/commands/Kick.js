@@ -34,8 +34,7 @@ class Ban extends Command {
                 if (check) return this.sendError(msg.channel, 'User is protected!');
             }
         }
-        console.log('Perms checked');
-        msg.delete().catch(() => { /* --- */ })
+        msg.delete().catch( () => { /* --- */ } );
 
         const reason = args[1] ? args.slice(1).join(' ') : 'No reason';
 
