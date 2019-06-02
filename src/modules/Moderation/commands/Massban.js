@@ -31,8 +31,8 @@ class Massban extends Command {
         for (const id of ids) {
             let add = true;
             let user = Resolver.member(msg.channel.guild, id) || Resolver.user(this.axon.client, id);
-            if (!user && args[0].match(/^\d+$/) ) {
-                user = await this.axon.client.getRESTUser(args[0] )
+            if (!user && id.match(/^\d+$/) ) {
+                user = await this.axon.client.getRESTUser(id);
                     .catch( () => {
                         add = false;
                     } );
