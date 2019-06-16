@@ -1,5 +1,9 @@
 import { Command, Resolver } from 'axoncore';
 
+import EventEmitter from 'eventemitter3';
+
+
+
 class Mute extends Command {
     constructor(module) {
         super(module);
@@ -22,23 +26,33 @@ class Mute extends Command {
 
         this.options.guildOnly = true;
         this.options.argsMin = 2;
+
+        this.ee = new EventEmitter();
+
+        this.ee.on('unmute', this.unmute.bind(this) );
     }
 
     async unmute(object) {
         // eslint-disable-next-line prefer-const
         let { modcase, guild } = object;
+        await this.Utils.sleep(5000);
         guild = this.axon.client.guilds.get(guild.id);
-        const guildConf = await this.axon.getGuildConf(guild.id);
+        let guildConf = await this.axon.getGuildConf(guild.id);
         if (!guildConf) return;
         if (!guildConf.mutedRole) return;
+        modcase = guildConf.cases.find(cas => cas.id === modcase.id);
         const curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted');
         if (!curcase) return;
-        await this.axon.Utils.sleep(modcase.mutedFor);
+        await this.axon.Utils.sleep(modcase.mutedFor - 5000);
+        guildConf = await this.axon.getGuildConf(guild.id);
+        if (guildConf.cases.indexOf(modcase) > 1) return;
         const index = guildConf.cases.indexOf(curcase);
         curcase.status = null;
         guildConf.cases.fill(curcase, index, index);
         const mem = guild.members.get(modcase.user);
-        mem.removeRole(guildConf.mutedRole, `Unmute [AUTO]. Case ${modcase.id}`);
+        if (mem) {
+            mem.removeRole(guildConf.mutedRole, `Unmute [AUTO]. Case ${modcase.id}`);
+        }
         const nmodcase = {
             mod: this.bot.user.id, user: mem.id, reason: `Unmute [AUTO]. (${modcase.id})`, id: String(guildConf.cases.length + 1), type: 'unmute', unmutedAt: new Date(),
         };
@@ -107,7 +121,7 @@ class Mute extends Command {
             this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         }
         this.sendSuccess(msg.channel, `**Muted ${mem.user.username}#${mem.user.discriminator}!**`);
-        return this.unmute( { modcase, guild: msg.channel.guild } );
+        this.ee.emit('unmute', { guild: msg.channel.guild, modcase } );
     }
 }
 

@@ -43,7 +43,7 @@ class Moderation extends Event {
         if (bad.includes(modcase.type) ) color = colors.bad;
         if (neutral.includes(modcase.type) ) color = colors.neutral;
 
-        if (!channel && modcase.type !== 'massban') return this.axon.updateGuildConf(guildConf.guildID, guildConf);;
+        if (!channel && modcase.type !== 'massban') return this.axon.updateGuildConf(guildConf.guildID, guildConf);
         const embed = {
             title: `Moderation | ${type} | ID: ${modcase.id}`,
             fields: [
