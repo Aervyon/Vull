@@ -23,11 +23,12 @@ class Moderation extends Event {
         const channel = guild.channels.get(guildConf.modLogChannel);
         const mod = Resolver.member(guild, modcase.mod);
 
-        const good = ['unban'];
+        const good = ['unban', 'unmute'];
         const bad = [
             'ban',
             'kick',
             'massban',
+            'mute',
         ];
         const neutral = ['warn'];
 
@@ -70,6 +71,13 @@ class Moderation extends Event {
             embed.title = `Moderation | ${type} | ${eh}`;
             embed.fields.shift();
             embed.footer = null;
+        }
+        if (modcase.type === 'mute') {
+            embed.fields.push( {
+                name: 'Length',
+                value: this.axon.Utils.fullTimeFormat(modcase.mutedFor),
+                inline: true,
+            } );
         }
         const message = await this.sendMessage(channel, {
             embed,

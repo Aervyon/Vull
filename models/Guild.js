@@ -47,6 +47,8 @@ const guildSchema = new Schema( {
     cases: { type: Array, default: [] },
 
     protectedRoles: { type: Array, default: [] },
+    mutes: { type: Array, default: [] },
+    mutedRole: { type: String, default: null },
 
 }, {
     autoIndex: true,
