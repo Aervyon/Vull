@@ -1,5 +1,4 @@
 import Bot from './Bot';
-import conf from './configs/customConf.json';
 import moment from 'moment';
 import { existsSync } from 'fs';
 import path from 'path';
