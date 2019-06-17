@@ -41,11 +41,12 @@ class Mute extends Command {
         if (!guildConf) return;
         if (!guildConf.mutedRole) return;
         modcase = guildConf.cases.find(cas => cas.id === modcase.id);
-        const curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted');
+        let curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted' && cas.id === modcase.id);
         if (!curcase) return;
         await this.axon.Utils.sleep(modcase.mutedFor - 5000);
         guildConf = await this.axon.getGuildConf(guild.id);
-        if (guildConf.cases.indexOf(modcase) > 1) return;
+        curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted' && cas.id === modcase.id);
+        if (guildConf.cases.indexOf(curcase) < 1) return;
         const index = guildConf.cases.indexOf(curcase);
         curcase.status = null;
         guildConf.cases.fill(curcase, index, index);
@@ -87,6 +88,7 @@ class Mute extends Command {
                 return this.sendError(msg.channel, 'Invalid time. Must be hours, days, or minutes.');
             }
         }
+        msg.delete();
         try {
             time = this.axon.Utils.toMS(time);
         } catch (err) {
@@ -120,8 +122,8 @@ class Mute extends Command {
             guildConf.cases.push(modcase);
             this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         }
-        this.sendSuccess(msg.channel, `**Muted ${mem.user.username}#${mem.user.discriminator}!**`);
         this.ee.emit('unmute', { guild: msg.channel.guild, modcase } );
+        return this.sendSuccess(msg.channel, `**Muted ${mem.user.username}#${mem.user.discriminator}!**`);
     }
 }
 

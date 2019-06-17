@@ -24,11 +24,12 @@ class ModCase extends Command {
         const user = await this.axon.client.getRESTUser(modcase.user);
         const mod = guild.members.get(modcase.mod);
 
-        const good = ['unban'];
+        const good = ['unban', 'unmute'];
         const bad = [
             'ban',
             'kick',
             'massban',
+            'mute',
         ];
         const neutral = ['warn'];
 
@@ -64,6 +65,10 @@ class ModCase extends Command {
             footer: { text: `ID: ${user.id}` },
             color,
         };
+
+        if (modcase.type === 'mute') {
+            embed.fields.push( { name: 'Time', value: this.Utils.fullTimeFormat(modcase.mutedFor), inline: true } );
+        }
 
         return embed;
     }

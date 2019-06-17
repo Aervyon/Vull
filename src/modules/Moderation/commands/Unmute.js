@@ -34,6 +34,7 @@ class Unmute extends Command {
         if (!guildConf.mutedRole) return this.sendError(msg.channel, 'Cannot find the muted role (Vull Database)!');
         const role = msg.channel.guild.roles.get(guildConf.mutedRole);
         if (!role) return this.sendError(msg.channel, 'Cannot find the muted role (Server)!');
+        msg.delete();
         user.removeRole(guildConf.mutedRole, reason);
         modcase.status = null;
         guildConf.cases.fill(modcase, index, index);
