@@ -9,24 +9,18 @@ class MuteJoin extends Event {
 
         this.infos = {
             owners: ['Null'],
-            description: 'Handles persistant mutes',
+            description: 'Handles persistent mutes',
         };
     }
 
     async execute(member, guild, guildConf) {
-        const gConf = !guild.id ? guildConf : guild;
-        console.log(gConf);
+        const gConf = !guild.id ? guild : guildConf;
         if (!gConf) {
-            console.log('No guild config');
-            throw Error('Excuse me what the fuck');
+            return;
         }
-        console.log('Got MuteJoin');
-        console.log(!!gConf.cases);
         if (!gConf.mutedRole || !gConf.cases) return Promise.resolve();
-        console.log('Checking for case');
         const mcase = gConf.cases.find(cas => cas.user === member.id && cas.status === 'muted');
         if (!mcase) return Promise.resolve();
-        console.log('Case found');
         return member.addRole(gConf.mutedRole, `Mute persist. Case ${mcase.id}`);
     }
 }
