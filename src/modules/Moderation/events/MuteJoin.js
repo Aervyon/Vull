@@ -16,7 +16,7 @@ class MuteJoin extends Event {
     async execute(member, guild, guildConf) {
         const gConf = !guild.id ? guild : guildConf;
         if (!gConf) {
-            return;
+            return Promise.resolve();
         }
         if (!gConf.mutedRole || !gConf.cases) return Promise.resolve();
         const mcase = gConf.cases.find(cas => cas.user === member.id && cas.status === 'muted');
