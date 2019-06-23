@@ -15,9 +15,13 @@ class MuteOverwrites extends Event {
     }
 
     execute(channel, oldChannel, guildConf) {
+        if (!guildConf || !guildConf.mutedRole) return Promise.resolve();
+        const role = channel.guild.roles.get(guildConf.mutedRole);
+        if (!role) return Promise.resolve();
+        const deny = 35657792;
         const overwrites = channel.permissionOverwrites.get(guildConf.mutedRole);
-        if (!overwrites || overwrites.deny !== 35657792) {
-            channel.editPermission(guildConf.mutedRole, 0, 35657792, 'role', 'Vull mute failsafe');
+        if (!overwrites || overwrites.deny !== deny) {
+            channel.editPermission(guildConf.mutedRole, 0, deny, 'role', 'Vull mute failsafe');
         }
         return Promise.resolve();
     }

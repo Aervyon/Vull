@@ -21,6 +21,8 @@ class MuteJoin extends Event {
         if (!gConf.mutedRole || !gConf.cases) return Promise.resolve();
         const mcase = gConf.cases.find(cas => cas.user === member.id && cas.status === 'muted');
         if (!mcase) return Promise.resolve();
+        const role = guild.roles.get(gConf.mutedRole);
+        if (!role) return Promise.resolve();
         return member.addRole(gConf.mutedRole, `Mute persist. Case ${mcase.id}`);
     }
 }
