@@ -30,6 +30,7 @@ class ModCase extends Command {
             'kick',
             'massban',
             'mute',
+            'ban match',
         ];
         const neutral = ['warn'];
 

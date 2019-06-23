@@ -1,5 +1,6 @@
 import { Command, Resolver } from 'axoncore';
 
+import BanMatch from './Ban_match';
 class Ban extends Command {
     constructor(module) {
         super(module);
@@ -16,10 +17,10 @@ class Ban extends Command {
         this.options.guildOnly = true;
         this.options.argsMin = 1;
 
-        this.permissions.bot = [
-            'banMembers',
-            'sendMessages',
-        ];
+        this.hasSubcmd = true;
+        this.subcmds = [BanMatch];
+
+        this.permissions.bot = ['banMembers', 'sendMessages'];
     }
 
     async execute( { msg, args, guildConf } ) {

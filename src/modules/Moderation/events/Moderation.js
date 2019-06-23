@@ -29,6 +29,7 @@ class Moderation extends Event {
             'kick',
             'massban',
             'mute',
+            'ban match',
         ];
         const neutral = ['warn'];
 
@@ -43,7 +44,7 @@ class Moderation extends Event {
         if (bad.includes(modcase.type) ) color = colors.bad;
         if (neutral.includes(modcase.type) ) color = colors.neutral;
 
-        if (!channel && modcase.type !== 'massban') return this.axon.updateGuildConf(guildConf.guildID, guildConf);
+        if (!channel && !modcase.type.match(/massban|ban match/) ) return this.axon.updateGuildConf(guildConf.guildID, guildConf);
         const embed = {
             title: `Moderation | ${type} | ID: ${modcase.id}`,
             fields: [
@@ -66,7 +67,7 @@ class Moderation extends Event {
             footer: { text: `ID: ${user.id}` },
             color,
         };
-        if (modcase.type === 'massban') {
+        if (modcase.type === 'massban' || modcase.type === 'ban match') {
             const eh = modcase.id.match('-') ? `IDs: ${modcase.id}` : `ID: ${modcase.id}`;
             embed.title = `Moderation | ${type} | ${eh}`;
             embed.fields.shift();
@@ -82,7 +83,7 @@ class Moderation extends Event {
         const message = await this.sendMessage(channel, {
             embed,
         } );
-        if (modcase.type === 'massban') return;
+        if (modcase.type === 'massban' || modcase.type === 'ban match') return;
         modcase.mID = message.id;
         modcase.cID = message.channel.id;
         guildConf.cases.push(modcase);
