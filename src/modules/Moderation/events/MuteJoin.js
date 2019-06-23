@@ -23,6 +23,8 @@ class MuteJoin extends Event {
         if (!mcase) return Promise.resolve();
         const role = guild.roles.get(gConf.mutedRole);
         if (!role) return Promise.resolve();
+        const memb = guild.members.get(this.axon.client.user.id);
+        if (!memb.permission.has('administraot' || 'manageGuild' || 'manageRoles' || 'manageMembers') ) return Promise.resolve();
         return member.addRole(gConf.mutedRole, `Mute persist. Case ${mcase.id}`);
     }
 }
