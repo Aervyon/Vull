@@ -86,7 +86,7 @@ class Game extends Command {
                 }
             }
             if (member.game.assets.small_image) {
-                mess.embed.author = { icon_url: `https://cdn.discordapp.com/app-assets/${member.game.application_id}/${member.game.assets.small_image}` };
+                mess.embed.author = { icon_url: `https://cdn.discordapp.com/app-assets/${member.game.application_id}/${member.game.assets.small_image}`, name: '​' };
                 if (member.game.assets.small_text) {
                     mess.embed.author.name = member.game.assets.small_text;
                 }
