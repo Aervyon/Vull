@@ -33,7 +33,7 @@ class LatestCommit extends Command {
         base = base.stdout;
         let status = await exec('git status --porcelain=2');
         status = status.stdout;
-        let arr = [];
+        const arr = [];
         for (const eh of status.split('\n') ) {
             if (eh.match(/^\d+ \.M/) && !arr.includes('Vull has modifed files not scheduled for commiting') ) arr.push('Vull has modifed files not scheduled for commiting');
             if (eh.match(/^\d+ M\./) && !arr.includes('Vull has modifed files scheduled for commiting') ) arr.push('Vull has modifed files scheduled for commiting');
