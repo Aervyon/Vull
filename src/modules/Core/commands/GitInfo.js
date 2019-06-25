@@ -31,6 +31,17 @@ class LatestCommit extends Command {
         local = local.stdout;
         let base = await exec('git merge-base @{0} @{u}');
         base = base.stdout;
+        let status = await exec('git status --porcelain=2');
+        status = status.stdout;
+        let arr = [];
+        for (const eh of status.split('\n') ) {
+            if (eh.match(/^\d+ \.M/) && !arr.includes('Vull has modifed files not scheduled for commiting') ) arr.push('Vull has modifed files not scheduled for commiting');
+            if (eh.match(/^\d+ M\./) && !arr.includes('Vull has modifed files scheduled for commiting') ) arr.push('Vull has modifed files scheduled for commiting');
+            if (eh.match(/^\? /) && !arr.includes('Vull has untracked files') ) arr.push('Vull has untracked files');
+            if (eh.match(/^\d+ \.D/) && !arr.includes('Vull has deleted files not scheduled for commiting') ) arr.push('Vull has deleted files not scheduled for commiting');
+            if (eh.match(/^\d+ D\./) && !arr.includes('Vull has deleted files scheduled for commiting') ) arr.push('Vull has deleted files scheduled for commiting');
+            if (eh.match(/^\d+ R(M|\.)/) && !arr.includes('Vull has renamed files scheduled for commiting') ) arr.push('Vull has renamed files scheduled for commiting');
+        }
 
         let uh = 'Up to date';
         if (local === upstream) uh = 'Up to date';
@@ -56,6 +67,7 @@ class LatestCommit extends Command {
         if (branch) desc.push( { name: 'Branch', value: branch, inline: true } );
         if (hash) desc.push( { name: 'Commit', value: hash, inline: true } );
         if (title) desc.push( { name: 'Commit title', value: title, inline: true } );
+        if (arr.length > 0) desc.push( { name: 'File status', value: arr.join('\n'), inline: true } );
         if (desc && desc.length > 0) return this.sendMessage(msg.channel, {
             embed: {
                 color: this.axon.configs.template.embed.colors.help,
