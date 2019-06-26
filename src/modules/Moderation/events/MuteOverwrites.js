@@ -19,7 +19,7 @@ class MuteOverwrites extends Event {
         const role = channel.guild.roles.get(guildConf.mutedRole);
         if (!role) return Promise.resolve();
         const memb = channel.guild.members.get(this.axon.client.user.id);
-        if (!memb.permission.has('administraot' || 'manageGuild' || 'manageChannels') ) return Promise.resolve();
+        if (!memb.permission.has('administrator' || 'manageGuild' || 'manageChannels') ) return Promise.resolve();
         const deny = 35657792;
         const overwrites = channel.permissionOverwrites.get(guildConf.mutedRole);
         if (!overwrites || overwrites.deny !== deny) {
