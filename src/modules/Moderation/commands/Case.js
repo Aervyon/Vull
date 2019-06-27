@@ -74,17 +74,16 @@ class ModCase extends Command {
         return embed;
     }
 
-    rebuildEmbed(message) {
+    static rebuildEmbed(message) {
         if (!message.embeds[0] ) return null;
         const mEmbed = message.embeds[0];
         if (!mEmbed.title.startsWith('Moderation |') ) return null;
-        const embed = {
+        return {
             title: mEmbed.title,
             color: mEmbed.color,
             footer: mEmbed.footer,
             fields: mEmbed.fields,
         };
-        return embed;
     }
 
     async execute( { msg, args, guildConf } ) {

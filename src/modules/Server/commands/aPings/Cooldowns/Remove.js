@@ -30,6 +30,7 @@ class Remove extends Command {
                 const member = Resolver.member(msg.channel.guild, args[0] );
                 if (!member) return this.sendError(msg.channel, 'Member not found!');
                 interjection = `${member.user.username}#${member.user.discriminator}`;
+                // eslint-disable-next-line prefer-destructuring
                 mention = member.mention;
             } else {
                 return this.sendError(msg.channel, 'You do not have the permissions to do this!');

@@ -120,8 +120,7 @@ class VullUtils extends Utils {
         const isValid = this._isValidVullNum(ms);
         if (isValid !== true) throw Error(isValid);
         const moment = this.axon.deps.get('moment');
-        const date = moment.duration(ms, 'ms').format('Y [year,] M [month,] W [week,] d [day,] h [hour,] m [minute,] s [second]');
-        return date;
+        return moment.duration(ms, 'ms').format('Y [year,] M [month,] W [week,] d [day,] h [hour,] m [minute,] s [second]');
     }
 
     /**
@@ -134,8 +133,7 @@ class VullUtils extends Utils {
      * @returns {String}
      * */
     sliceTime(timeString) {
-        const time = timeString.replace(this.timeReg, '');
-        return time;
+        return timeString.replace(this.timeReg, '');
     }
 
     /**

@@ -19,8 +19,8 @@ class DM extends Command {
     }
 
     async execute( { msg, args } ) {
-        
-        const DMChannel = await this.axon.client.getDMChannel(msg.author.id)
+
+        const DMChannel = await this.axon.client.getDMChannel(msg.author.id);
 
         try {
             await msg.delete();
@@ -38,26 +38,25 @@ class DM extends Command {
 
         let message;
 
-        let startingPart = `DM from ${msg.channel.guild.name}: `
+        let startingPart = `DM from ${msg.channel.guild.name}: `;
 
         try {
             message = await this.sendMessage(userDM, `${startingPart}${args.slice(1).join(' ')}` );
         } catch {
             return this.sendError(DMChannel, 'Command Failed => Unable to DM user!');
-        } finally {
-            return this.sendMessage(DMChannel, {
-                content: `${this.axon.configs.template.emote.success} Sent a DM to \`${user.user.username}#${user.user.discriminator} (${user.id})\`!`,
-                embed: {
-                    fields: [
-                        {
-                            name: 'DM Content',
-                            value: message.cleanContent.slice(startingPart.length),
-                        }
-                    ],
-                    color: this.axon.configs.template.embed.colors.help
-                }
-            })
         }
+        return this.sendMessage(DMChannel, {
+            content: `${this.axon.configs.template.emote.success} Sent a DM to \`${user.user.username}#${user.user.discriminator} (${user.id})\`!`,
+            embed: {
+                fields: [
+                    {
+                        name: 'DM Content',
+                        value: message.cleanContent.slice(startingPart.length),
+                    }
+                ],
+                color: this.axon.configs.template.embed.colors.help
+            }
+        })
     }
 }
 

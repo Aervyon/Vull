@@ -35,7 +35,6 @@ class SafeEval extends Command {
                 return this.sendError(msg.channel, 'No');
             }
         }
-        return;
     }
 
     async execute( { msg, args } ) {
@@ -43,6 +42,7 @@ class SafeEval extends Command {
         if (check) {
             return;
         }
+        const maxLength = 1990;
 
         try {
             const vm = new VM( {
@@ -64,7 +64,7 @@ class SafeEval extends Command {
                     evaled = String(evaled);
                 }
             }
-            if (evaled.length >= 2000) {
+            if (evaled.length >= maxLength) {
                 evaled = evaled.match(/[\s\S]{1,1900}[\n\r]/g) || [];
                 if (evaled.length > 3) {
                     this.sendMessage(msg.channel, `\`\`\`js\n${evaled[0]}\`\`\``);
@@ -80,7 +80,7 @@ class SafeEval extends Command {
         } catch (err) {
             let er = err.message || err;
             if (er === 'DiscordRESTError [50001]: Missing Access') return Promise.resolve();
-            if (er.length >= 2000) {
+            if (er.length >= maxLength) {
                 er = this.axon.Utils.splitMessage(er);
             }
             this.sendError(msg.channel, 'An error occured. Check below');

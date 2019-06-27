@@ -22,7 +22,6 @@ class YouTube extends Command {
     }
 
     async execute( { msg, args } ) {
-
         const query = args.join('+');
         if (!this.axon.configs._tokens.yt.key) {
             this.sendError(msg.channel, 'YouTube API has not been setup. Can not execute');

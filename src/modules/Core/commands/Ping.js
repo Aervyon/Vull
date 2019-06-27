@@ -11,7 +11,7 @@ class Ping extends Command {
             'pung',
         ];
 
-        this.hasSubcmd = false;
+
 
         this.infos = {
             owner: ['KhaaZ'],
@@ -20,7 +20,7 @@ class Ping extends Command {
             usage: 'ping',
             examples: ['ping'],
         };
-        
+
         this.options.cooldown = 3000;
         this.options.guildOnly = false;
     }

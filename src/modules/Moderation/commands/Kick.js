@@ -16,10 +16,7 @@ class Ban extends Command {
         this.options.guildOnly = true;
         this.options.argsMin = 1;
 
-        this.permissions.bot = [
-            'kickMembers',
-            'sendMessages',
-        ];
+        this.permissions.bot = ['kickMembers', 'sendMessages'];
     }
 
     async execute( { msg, args, guildConf } ) {

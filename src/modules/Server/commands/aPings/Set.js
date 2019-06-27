@@ -49,7 +49,7 @@ class Settings extends Command {
         }
 
         const users = apings.users || [];
-        const status = args[0] === 'enable' ? true : false;
+        const status = args[0] === 'enable';
         const cooldownUsers = apings.cooldownUsers || [];
 
         await Guild.findOneAndUpdate( { guildID: msg.channel.guild.id }, { $set: { apings: { users, channel, status, cooldownUsers } } } );

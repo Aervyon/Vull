@@ -30,7 +30,8 @@ class Add extends Command {
         let roles = guildConf.protectedRoles;
         if (!guildConf.protectedRoles || !Array.isArray(guildConf.protectedRoles) ) roles = [];
 
-        if (roles.length >= 40) return this.sendError(msg.channel, 'Protected roles limit reached! Cannot add role');
+        const maxRoleLength = 40;
+        if (roles.length >= maxRoleLength) return this.sendError(msg.channel, 'Protected roles limit reached! Cannot add role');
 
         if (roles.includes(role.id) ) return this.sendError(msg.channel, 'That role is already protected!');
 

@@ -53,6 +53,7 @@ class BanMatch extends Command {
             let mem;
             if (user) {
                 mem = user;
+                // eslint-disable-next-line prefer-destructuring
                 user = user.user;
             }
             if (!user && id.match(/^\d+$/) ) {
@@ -66,7 +67,7 @@ class BanMatch extends Command {
                 if (mem.roles && guildConf.protectedRoles && guildConf.protectedRoles.length > 0) {
                     for (const role of guildConf.protectedRoles) {
                         const check = mem.roles.includes(role);
-                        if (check) add = false;
+                        add = !check;
                     }
                 }
             }

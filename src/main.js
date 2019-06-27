@@ -45,7 +45,8 @@ Bot.client.on('messageCreate', async msg => {
     if (guildConf.apings.users && guildConf.apings.users.length > 0) {
         msg.channel.createMessage(`${guildConf.apings.users.join(', ')} Adventure!`);
     }
-    await Bot.Utils.sleep(123000);
+    const mins = 123000;
+    await Bot.Utils.sleep(mins);
     if (guildConf.apings.cooldownUsers && guildConf.apings.cooldownUsers.length > 0) {
         msg.channel.createMessage(`${guildConf.apings.cooldownUsers.join(', ')} You may adventure again!`);
     }

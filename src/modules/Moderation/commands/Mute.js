@@ -35,7 +35,8 @@ class Mute extends Command {
     async unmute(object) {
         // eslint-disable-next-line prefer-const
         let { modcase, guild } = object;
-        await this.Utils.sleep(5000);
+        const secs = 5000;
+        await this.Utils.sleep(secs);
         guild = this.axon.client.guilds.get(guild.id);
         let guildConf = await this.axon.getGuildConf(guild.id);
         if (!guildConf) return;
@@ -43,7 +44,7 @@ class Mute extends Command {
         modcase = guildConf.cases.find(cas => cas.id === modcase.id);
         let curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted' && cas.id === modcase.id);
         if (!curcase) return;
-        await this.axon.Utils.sleep(modcase.mutedFor - 5000);
+        await this.axon.Utils.sleep(modcase.mutedFor - secs);
         guildConf = await this.axon.getGuildConf(guild.id);
         curcase = guildConf.cases.find(cas => cas.user === modcase.user && cas.status === 'muted' && cas.id === modcase.id);
         if (guildConf.cases.indexOf(curcase) < 1) return;
@@ -63,7 +64,6 @@ class Mute extends Command {
             guildConf.cases.push(nmodcase);
             this.axon.updateGuildConf(guild.id, guildConf);
         }
-        return;
     }
 
     async execute( { msg, args, guildConf } ) {

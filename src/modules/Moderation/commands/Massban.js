@@ -49,7 +49,7 @@ class Massban extends Command {
                 if (user.roles && guildConf.protectedRoles && guildConf.protectedRoles.length > 0) {
                     for (const role of guildConf.protectedRoles) {
                         const check = user.roles.includes(role);
-                        if (check) add = false;
+                        add = !check;
                     }
                 }
             }

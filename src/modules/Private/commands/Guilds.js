@@ -59,8 +59,7 @@ class Guilds extends Command {
         await this.axon.client.leaveGuild(endPrompt.content);
 
         try {
-            const mess = await this.sendMessage(msg.channel, `Left guild with a ID of \`${endPrompt.content}\``);
-            return mess;
+            return this.sendMessage(msg.channel, `Left guild with a ID of \`${endPrompt.content}\``);
         } catch (err) {
             console.log(`Unable to send success left guild message in ${msg.channel.id}! Error:\n${err.message || err}`);
             return Promise.resolve();

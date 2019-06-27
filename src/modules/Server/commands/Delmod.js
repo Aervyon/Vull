@@ -33,7 +33,7 @@ class Delmod extends Command {
             guildConf.modRoles = guildConf.modRoles.filter(m => m !== resolved.id);
         }
 
-        const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
+        await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
         if (type === 'role') {
             adj = 'Role';

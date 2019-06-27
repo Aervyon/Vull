@@ -5,7 +5,7 @@ class Game extends Command {
     constructor(module) {
         super(module);
         this.label = 'game';
-        
+
         this.infos = {
             owners: ['Null'],
             description: 'Get some playing info',
@@ -98,14 +98,14 @@ class Game extends Command {
         return mess;
     }
 
-    spotifyGame(member, title) {
+    static spotifyGame(member, title) {
         let listened = new Date() - member.game.timestamps.start;
         const total = member.game.timestamps.end - member.game.timestamps.start;
         listened = moment.duration(listened, 'milliseconds').format('m[:]ss');
         if (!listened.match(/d{1,2}:/) ) {
             listened = `0:${listened}`;
         }
-        const mess = {
+        return {
             embed: {
                 author: {
                     icon_url: 'https://cdn.discordapp.com/attachments/358674161566220288/496894273304920064/2000px-Spotify_logo_without_text.png',
@@ -135,7 +135,6 @@ class Game extends Command {
                 footer: { text: `${member.user.username}#${member.user.discriminator}`, icon_url: member.avatarURL },
             },
         };
-        return mess;
     }
 
     execute( { msg, args } ) {

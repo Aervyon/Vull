@@ -24,23 +24,17 @@ class VullClient extends AxonClient {
         this.ee = new EventEmitter();
     }
 
-    get Resolver() {
+    static get Resolver() {
         return Resolver;
-    }
-
-    initStaff() {
-        // Called after initOwners has run
-        // setup bot staff as per your convenience. Can be anything
-        this.staff.contributors = [];
     }
 
     async onUnmute(obj) {
         // eslint-disable-next-line prefer-const
-        let { mID, dbGuild, gID, cas } = obj;
+        let { mID, gID, cas } = obj;
         const guild = this.client.guilds.get(gID);
         const mem = guild.members.get(mID);
         await this.Utils.sleep(cas.mutedFor - (new Date - cas.mutedAt) );
-        dbGuild = await this.getGuildConf(gID);
+        const dbGuild = await this.getGuildConf(gID);
         const cas2 = dbGuild.cases.find(cass => cass.id === cas.id && cass.status === 'muted');
         if (!dbGuild.cases.find(cass => cass.id === cas.id && cass.status === 'muted') ) return;
         if (mem) {
@@ -54,7 +48,7 @@ class VullClient extends AxonClient {
         const modcase = {
             mod: this.client.user.id, user: mem.id, reason: `Unmute [AUTO]. (${cas.id})`, id: String(dbGuild.cases.length + 1), type: 'unmute', unmutedAt: new Date(),
         };
-    
+
         if (dbGuild.modLogStatus) this.client.emit('moderation', { modcase, guildConf: dbGuild } );
         else {
             dbGuild.cases.push(modcase);
@@ -86,7 +80,7 @@ class VullClient extends AxonClient {
                     const modcase = {
                         mod: client.user.id, user: mem.id, reason: `Unmute [AUTO]. (${cas.id})`, id: String(dbGuild.cases.length + 1), type: 'unmute', unmutedAt: new Date(),
                     };
-    
+
                     if (dbGuild.modLogStatus) client.emit('moderation', { modcase, guildConf: dbGuild } );
                     else {
                         dbGuild.cases.push(modcase);
@@ -105,26 +99,6 @@ class VullClient extends AxonClient {
         this.client.once('ready', this.onReady.bind(this) );
         this.ee.on('unmute', this.onUnmute.bind(this) );
         return Promise.resolve();
-    }
-
-    initStatus() {
-        // called after ready event
-        // overrides default editStatus
-        // used to setup custom status
-        this.client.editStatus(null, {
-            name: `Vull | ${this.params.prefix[0]}help`,
-            type: 0,
-        } );
-    }
-
-    $sendFullHelp(msg) {
-        // override sendFullHelp method
-        return this.AxonUtils.sendMessage(msg.channel, 'Full Help override');
-    }
-
-    $sendHelp(command, msg) {
-        // override sendHelp method
-        return this.AxonUtils.sendMessage(msg.channel, `Help override for ${command.label}`);
     }
 }
 

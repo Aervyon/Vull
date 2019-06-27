@@ -40,7 +40,7 @@ class LatestCommit extends Command {
             if (eh.match(/^\? /) && !arr.includes('Vull has untracked files') ) arr.push('Vull has untracked files');
             if (eh.match(/^\d+ \.D/) && !arr.includes('Vull has deleted files not scheduled for commiting') ) arr.push('Vull has deleted files not scheduled for commiting');
             if (eh.match(/^\d+ D\./) && !arr.includes('Vull has deleted files scheduled for commiting') ) arr.push('Vull has deleted files scheduled for commiting');
-            if (eh.match(/^\d+ R(M|\.)/) && !arr.includes('Vull has renamed files scheduled for commiting') ) arr.push('Vull has renamed files scheduled for commiting');
+            if (eh.match(/^\d+ R([M.])/) && !arr.includes('Vull has renamed files scheduled for commiting') ) arr.push('Vull has renamed files scheduled for commiting');
         }
 
         let uh = 'Up to date';

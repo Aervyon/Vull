@@ -11,7 +11,7 @@ class Misc extends Module {
 
         this.infos = {
             name: 'Misc',
-            description: 'Misc commands that did not fit anywhere else.'
+            description: 'Misc commands that did not fit anywhere else.',
         };
 
         this.init(commands);

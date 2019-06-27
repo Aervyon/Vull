@@ -14,7 +14,7 @@ class Protected extends Command {
         };
 
         this.options.guildOnly = true;
-        
+
         this.permissions.bot = ['embedLinks', 'sendMessages'];
         this.permissions.user.needed = ['manageGuild', 'administrator'];
 
@@ -37,9 +37,9 @@ class Protected extends Command {
 
         let color = this.axon.configs.template.embed.colors.help;
         if (msg.channel.guild.roles && msg.channel.guild.roles.size > 0) {
-            let roles = msg.channel.guild.roles.filter(r => r.color !== 0);
-            roles = this.axon.Utils.sortRoles(roles);
-            color = roles[0].color || color;
+            let rroles = msg.channel.guild.roles.filter(r => r.color !== 0);
+            rroles = this.axon.Utils.sortRoles(rroles);
+            color = rroles[0].color || color;
         }
 
         return this.sendMessage(msg.channel, {

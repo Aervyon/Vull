@@ -33,7 +33,7 @@ class Addmod extends Command {
             guildConf.modRoles.push(resolved.id);
         }
 
-        const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
+        await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
         if (type === 'role') {
             adj = 'Role';
