@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import axoncore from 'axoncore';
-const { Utils, AxonError } = axoncore;
+import { Utils, AxonError } from 'axoncore';
 
 /**
  * Custom Utils designed to help Vull.
