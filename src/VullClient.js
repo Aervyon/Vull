@@ -100,6 +100,30 @@ class VullClient extends AxonClient {
         this.ee.on('unmute', this.onUnmute.bind(this) );
         return Promise.resolve();
     }
+
+    initStatus() {
+        const objs = [
+            {
+                type: 2,
+                name: `You whine | ${this.params.prefix[0]} help`,
+            },
+            {
+                type: 3,
+                name: `You | ${this.params.prefix[0]} help`,
+            },
+            {
+                type: 0,
+                name: `You | ${this.params.prefix[0]} help`,
+            },
+        ];
+        const dayOne = 86400000;
+        setInterval( () => {
+            const num = Math.round(Math.random() * objs.length);
+            let f = objs[num];
+            if (num === 0 || num === Number('-1') ) f = objs[0];
+            this.client.editStatus(null, f);
+        }, dayOne);
+    }
 }
 
 export default VullClient;
