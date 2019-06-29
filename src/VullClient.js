@@ -102,6 +102,7 @@ class VullClient extends AxonClient {
     }
 
     initStatus() {
+
         const objs = [
             {
                 type: 2,
@@ -116,10 +117,18 @@ class VullClient extends AxonClient {
                 name: `You | ${this.params.prefix[0]} help`,
             },
         ];
+        let num = Math.round(Math.random() * objs.length);
+        let f = objs[num];
+        if (num >= objs.length) f = objs[objs.length - 1];
+        if (num === 0 || num === Number('-1') ) f = objs[0];
         const dayOne = 86400000;
+
+        this.client.editStatus(null, f);
+
         setInterval( () => {
-            const num = Math.round(Math.random() * objs.length);
-            let f = objs[num];
+            num = Math.round(Math.random() * objs.length);
+            f = objs[num];
+            if (num >= objs.length) f = objs[objs.length - 1];
             if (num === 0 || num === Number('-1') ) f = objs[0];
             this.client.editStatus(null, f);
         }, dayOne);
