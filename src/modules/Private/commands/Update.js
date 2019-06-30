@@ -14,7 +14,7 @@ export class Update extends Command {
         this.permissions.staff.needed = this.axon.staff.owners;
     }
 
-    async execute( { msg } ) {
+    async execute({ msg }) {
         let branch = await exec('git branch | grep \\* | cut -d \' \' -f2');
         branch = branch.stdout;
         branch = branch.replace('\\n');
@@ -39,12 +39,18 @@ export class Update extends Command {
                 return this.sendError(msg.chnnel, 'Vull has renamed files scheduled for committing. Cannot update');
         }
 
-        if (local === upstream)
+        if (local === upstream) {
             return this.sendError(msg.channel, 'Up to date');
-        else if (base === upstream)
-            return this.sendError('Ahead of upstream');
-        else
-            return this.sendError('Diverged');
+        }
+        else if (base === upstream) {
+            return this.sendError(msg.channel, 'Ahead of upstream');
+        }
+        else if (base === local) {
+            // Do nothing
+        }
+        else {
+            return this.sendError(msg.channel, 'Diverged');
+        }
 
         let hash;
         if (vers) {
