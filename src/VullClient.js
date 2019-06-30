@@ -1,6 +1,5 @@
 /* eslint-disable consistent-this */
 
-
 import { AxonClient, Resolver } from 'axoncore';
 
 import * as modules from './modules/index';
@@ -12,7 +11,7 @@ import EventEmitter from 'eventemitter3';
 /**
  * Custom client constructor
  *
- * @author KhaaZ
+ * @author KhaaZ, Null
  *
  * @class Client
  * @extends {AxonCore.AxonClient}
@@ -106,15 +105,15 @@ class VullClient extends AxonClient {
         const objs = [
             {
                 type: 2,
-                name: `You whine | ${this.params.prefix[0]} help`,
+                name: `You whine | ${this.params.prefix[0]}help`,
             },
             {
                 type: 3,
-                name: `You | ${this.params.prefix[0]} help`,
+                name: `You | ${this.params.prefix[0]}help`,
             },
             {
                 type: 0,
-                name: `You | ${this.params.prefix[0]} help`,
+                name: `You | ${this.params.prefix[0]}help`,
             },
         ];
         let num = Math.round(Math.random() * objs.length);
