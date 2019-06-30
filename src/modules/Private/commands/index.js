@@ -6,3 +6,4 @@ export { default as Gdisable } from './Gdisable';
 export { default as Blacklist } from './Blacklist';
 export { default as Unblacklist } from './Unblacklist';
 export { default as IP } from './IP';
+export { default as Update } from './Update';
