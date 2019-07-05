@@ -8,6 +8,8 @@ import moment from 'moment';
 
 import EventEmitter from 'eventemitter3';
 
+import LangClass from '../Declarations/LangClass';
+
 /**
  * Custom client constructor
  *
@@ -21,6 +23,7 @@ class VullClient extends AxonClient {
         super(client, axonOptions, modules);
         this.deps = new Map();
         this.ee = new EventEmitter();
+        this.LangClass = new LangClass();
     }
 
     static get Resolver() {
@@ -56,6 +59,7 @@ class VullClient extends AxonClient {
     }
 
     async onReady() {
+        await this.LangClass.init();
         const Guild = this.schemas.get('guildSchema');
         let guilds = await Guild.find();
         guilds = guilds.filter(g => g.cases.find(cas => cas.status === 'muted') );

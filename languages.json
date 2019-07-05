@@ -1,0 +1,34 @@
+{
+    "en": {
+        "test": "Hello",
+
+        "user_notfound": "User not found!",
+
+        "lang_cl": "Current Language",
+        "lang_gl": "Guild Language",
+        "lang_bl": "Bot Language",
+        "lang_codes": "Languages are represented by language codes.",
+        "lang_err": "Language `{custom}` not found!",
+        "lang_success": "Updated your guild language to `{custom}`!",
+
+        "lm_em_title": "Moderators for {guild.name}",
+        "lm_field_role": "Roles",
+        "lm_field_users": "Users",
+        "lm_no_mods": "No moderators found for this server!",
+
+        "nick_reason": "Updated by {user.name} ({user.id})",
+        "nick_reset": "Reset my nickname!",
+        "nick_change": "My nickname was set to `${custom}`",
+
+        "prefix_show": "The prefix for `{guild.name}` is `{custom}`.",
+        "prefix_limit": "Prefixes can have no more than 6 characters",
+        "prefix_updated": "Updated your prefix to `{custom}`",
+        "prefix_perms": "You do not have the permissions to execute this command! You need either: `manage server`, `administrator`, or you need to be a bot owner/admin",
+
+        "dm_del_fail": "Unable to delete message",
+        "dm_msg_fail": "Unable to DM user",
+        "dm_start": "DM from {guild}: ",
+        "dm_success": "{custom} Sent a DM to `{user.name} ({user.id})`!",
+        "dm_field_cont": "DM Content"
+    }
+}
