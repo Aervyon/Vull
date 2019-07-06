@@ -47,7 +47,7 @@ class DM extends Command {
             return this.sendError(DMChannel, this.axon.LangClass.fetchSnippet('dm_msg_fail', { guildConf }) );
         }
         return this.sendMessage(DMChannel, {
-            content: this.axon.LangClass.fetchSnippet('dm_success', { guildConf, custom: this.template.emote.success, guild: msg.channel.guild } ),
+            content: this.axon.LangClass.fetchSnippet('dm_success', { guildConf, custom: this.template.emote.success, guild: msg.channel.guild, user } ),
             embed: {
                 fields: [
                     {
