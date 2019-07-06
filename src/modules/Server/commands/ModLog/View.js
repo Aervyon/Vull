@@ -25,15 +25,15 @@ class View extends Command {
 
         return this.sendMessage(msg.channel, {
             embed: {
-                title: 'Modlog settings',
+                title: this.axon.LangClass.fetchSnippet('modlog_settings', { guildConf } ),
                 fields: [
                     {
-                        name: 'Channel (ID)',
+                        name: this.axon.LangClass.fetchSnippet('channel_id', { guildConf } ),
                         value: `\`${channelID}\``,
                         inline: true,
                     },
                     {
-                        name: 'Status',
+                        name: this.axon.LangClass.fetchSnippet('status', { guildConf } ),
                         value: status,
                         inline: true,
                     },

@@ -7,7 +7,14 @@
         "role_notfound": "Role not found!",
         "role_notfound_custom": "Role `{custom}` not found!",
         "role_user_notfound": "Could not find the user or role",
+        "cmd_notfound": "Command not found!",
+        "cmd_protected": "Command is protected!",
+        "module_protected": "Module is protected!",
+        "module_notfound": "Module not found!",
         "del_msg_fail": "Unable to delete message",
+        "db_upd_err": "Something unexpected happened while updating the database!",
+        "status": "Status",
+        "channel_id": "Channel (ID)",
 
         "lang_cl": "Current Language",
         "lang_gl": "Guild Language",
@@ -49,6 +56,37 @@
 
         "delmod_not_user": "User {user.name} is not a moderator!",
         "delmod_not_role": "Role {custom} is not a moderator!",
-        "delmod_removed": "Removed {custom} {custom} from the moderator list!"
+        "delmod_removed": "Removed {custom} {custom} from the moderator list!",
+
+        "diagnose_cmd_enabled": "Command is enabled",
+        "diagnose_cmd_disabled": "Command is disabled",
+        "diagnose_cmd_g_disabled": "Command is globally disabled",
+        "diagnose_module_enabled": "Module is enabled",
+        "diagnose_module_disabled": "Module is disabled",
+        "diagnose_cmd_status": "Command Status",
+        "diagnose_module_status": "Module Status",
+        "diagnose_module_g_disabled": "Module is globally disabled",
+
+        "disable_already_disabled_cmd": "Command is already disabled!",
+        "disable_disabled_cmd": "Disabled command!",
+        "disable_err_occurred_cmd": "An error occurred while disabling the command!",
+        "disable_already_disabled_module": "Module is already disabled!",
+        "disable_disabled_module": "Disabled module!",
+        "disable_err_occurred_module": "An error occurred while disabling the module!",
+
+        "enable_already_enabled_cmd": "Command is already enabled!",
+        "enable_enabled_cmd": "Enabled command!",
+        "enable_err_occurred_cmd": "An error occurred while enabling the command!",
+        "enable_already_enabled_module": "Module is already enabled!",
+        "enable_enabled_module": "Enabled module!",
+        "enable_err_occurred_module": "An error occurred while enabling the module!",
+
+        "modlog_chan_already_set": "Modlog channel already set!",
+        "modlog_chan_set": "Set your modlog channel!",
+        "modlog_nvr_disabled": "Modlogs aren't disabled.",
+        "modlog_nvr_enabled": "Modlogs aren't enabled.",
+        "modlog_enabled": "Modlogs enabled!",
+        "modlog_disabled": "Modlogs disabled!",
+        "modlog_settings": "Modlog Settings"
     }
 }

@@ -19,12 +19,12 @@ class Off extends Command {
     }
 
     async execute( { msg, guildConf } ) {
-        if (!guildConf.modLogStatus) return this.sendError(msg.channel, 'Modlogs were never enabled.');
+        if (!guildConf.modLogStatus) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('modlog_nvr_enabled', { guildConf } ) );
         guildConf.modLogStatus = false;
-        this.axon.updateGuildConf(msg.channel.id, guildConf);
+        this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         guildConf = await this.axon.getGuildConf(msg.channel.guild.id);
-        if (guildConf.modLogStatus) return this.sendError(msg.channel, 'Something went wrong while disabling your modlog status');
-        return this.sendSuccess(msg.channel, 'Modlogs disabled!');
+        if (guildConf.modLogStatus) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('db_upd_err', { guildConf } ) );
+        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('modlog_disabled', { guildConf } ) );
     }
 }
 
