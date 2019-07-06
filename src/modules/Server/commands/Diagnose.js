@@ -18,6 +18,13 @@ class Diagnose extends Command {
     }
 
     execute( { msg, args, guildConf } ) {
+        let prefix;
+
+        try {
+            prefix = guildConf.prefix[0];
+        } catch {
+            prefix = this.axon.params[0]
+        }
         switch (args[0] ) {
             case 'command': {
                 const command = this.getCommand(args[1] );
@@ -26,13 +33,20 @@ class Diagnose extends Command {
                 const cGDisabled = this.axon.LangClass.fetchSnippet('diagnose_cmd_g_disabled', { guildConf } );
                 let output = guildConf.commands.includes(args[1] ) ? cDisabled : this.axon.LangClass.fetchSnippet('diagnose_cmd_enabled', { guildConf } );
                 if (command.enabled === false) output = cGDisabled;
-                const color = [cDisabled, cGDisabled].includes(output) ? this.axon.template.embed.colors.error : this.axon.template.embed.colors.success;
+                let color = [cDisabled, cGDisabled].includes(output) ? this.axon.template.embed.colors.error : this.axon.template.embed.colors.success;
+                const modul = command._module;
+                if (guildConf.modules.includes(modul.label) || modul.enabled === false) {
+                    output += '\n' + this.axon.LangClass.fetchSnippet(!modul.enabled ? 'diagnose_parent_module_g_disabled' : 'diagnose_parent_module_disabled', { guildConf, custom: modul.label } );
+                    color = this.axon.template.embed.colors.error;
+                }
+
+                output += `\n` + this.axon.LangClass.fetchSnippet('prefix_show', { guildConf, guild: msg.channel.guild, custom: prefix } );
 
                 return this.sendMessage(msg.channel, {
                     embed: {
                         fields: [
                             {
-                                name: this.axon.LangClass.fetchSnippet('diagnose_cmd_status', { guildConf } ),
+                                name: this.axon.LangClass.fetchSnippet('diagnose_cmd_status', { guildConf, custom: command.label } ),
                                 value: output,
                             },
                         ],
@@ -47,13 +61,15 @@ class Diagnose extends Command {
                 const mGDisabled = this.axon.LangClass.fetchSnippet('diagnose_module_g_disabled', { guildConf } );
                 let output = guildConf.modules.includes(args[1] ) ? mDisabled : this.axon.LangClass.fetchSnippet('diagnose_module_enabled', { guildConf } );
                 if (modul.enabled === false) output = mGDisabled;
-                const color = [mGDisabled, mGDisabled].includes(output) ? this.axon.template.embed.colors.error : this.axon.template.embed.colors.success;
+                const color = output.match('disabled') ? this.axon.template.embed.colors.error : this.axon.template.embed.colors.success;
+
+                output += `\n` + this.axon.LangClass.fetchSnippet('prefix_show', { guildConf, guild: msg.channel.guild, custom: prefix } );
 
                 return this.sendMessage(msg.channel, {
                     embed: {
                         fields: [
                             {
-                                name: this.axon.LangClass.fetchSnippet('diagnose_module_status', { guildConf } ),
+                                name: this.axon.LangClass.fetchSnippet('diagnose_module_status', { guildConf, custom: modul.label } ),
                                 value: output,
                             },
                         ],
