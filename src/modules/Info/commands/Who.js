@@ -96,7 +96,7 @@ class Who extends Command {
         return perms;
     }
 
-    static joins(msg, member) {
+    joins(msg, member) {
         let joins = msg.channel.guild.members.map(m => m);
         joins = joins.sort( (a, b) => a.joinedAt - b.joinedAt);
         joins = joins.map(m => m.id);
