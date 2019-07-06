@@ -23,7 +23,7 @@ class Protected extends Command {
     }
 
     execute( { msg, guildConf } ) {
-        if (!guildConf.protectedRoles || guildConf.protectedRoles.length === 0) return this.sendError(msg.channel, 'No protected roles found!');
+        if (!guildConf.protectedRoles || guildConf.protectedRoles.length === 0) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('protected_none', { guildConf } ) );
 
         let aroles = guildConf.protectedRoles;
         aroles = msg.channel.guild.roles.filter(r => aroles.includes(r.id) );
@@ -33,7 +33,7 @@ class Protected extends Command {
             if (!msg.channel.guild.roles.get(role) ) roles.push(`[Invalid-role ${role}]`);
         }
 
-        if (!roles || roles.length === 0) return this.sendError(msg.channel, 'No protected roles found!');
+        if (!roles || roles.length === 0) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('protected_none', { guildConf } ) );
 
         let color = this.axon.configs.template.embed.colors.help;
         if (msg.channel.guild.roles && msg.channel.guild.roles.size > 0) {
@@ -44,7 +44,7 @@ class Protected extends Command {
 
         return this.sendMessage(msg.channel, {
             embed: {
-                title: `Protected roles for ${msg.channel.guild.name}`,
+                title: this.axon.LangClass.fetchSnippet('protected_for', { guildConf, guild: msg.channel.guild } ),
                 color,
                 description: roles.join('\n'),
             },

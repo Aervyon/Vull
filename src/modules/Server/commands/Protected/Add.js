@@ -1,4 +1,4 @@
-import { Command } from 'axoncore';
+import { Command, Resolver } from 'axoncore';
 
 class Add extends Command {
     constructor(module) {
@@ -24,23 +24,23 @@ class Add extends Command {
     }
 
     execute( { msg, args, guildConf } ) {
-        const role = this.axon.Resolver.role(msg.channel.guild, args);
-        if (!role) return this.sendError(msg.channel, `Role ${args.join(' ')} not found!`);
+        const role = Resolver.role(msg.channel.guild, args);
+        if (!role) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('role_notfound_custom', { guildConf, custom: args.join(' ') } ) );
 
         let roles = guildConf.protectedRoles;
         if (!guildConf.protectedRoles || !Array.isArray(guildConf.protectedRoles) ) roles = [];
 
         const maxRoleLength = 40;
-        if (roles.length >= maxRoleLength) return this.sendError(msg.channel, 'Protected roles limit reached! Cannot add role');
+        if (roles.length >= maxRoleLength) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('protected_limit', { guildConf } ) );
 
-        if (roles.includes(role.id) ) return this.sendError(msg.channel, 'That role is already protected!');
+        if (roles.includes(role.id) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('protected_already', { guildConf } ) );
 
         roles = roles.concat( [role.id] );
 
         guildConf.protectedRoles = roles;
         this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
 
-        return this.sendSuccess(msg.channel, `Added \`${role.name}\` to the protected roles list!`);
+        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('protected_added', { guildConf, custom: role.name } ) );
     }
 }
 

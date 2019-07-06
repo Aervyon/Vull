@@ -23,7 +23,7 @@ class Say extends Command {
         this.guildOnly = true;
     }
 
-    async execute( { msg, args } ) {
+    async execute( { msg, args, guildConf } ) {
         let failsafe = true;
         if (['--no-failsafe', '-nfs'].includes(args[0].toLowerCase())) {
             failsafe = false;
@@ -33,7 +33,7 @@ class Say extends Command {
         try {
             await msg.delete()
         } catch {
-            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
+            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('del_msg_fail', { guildConf }) );
         }
 
         const total = args.join(' ');

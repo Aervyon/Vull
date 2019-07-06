@@ -26,7 +26,7 @@ class DM extends Command {
         try {
             await msg.delete();
         } catch {
-            if (msg.channel.messages.get(msg.id)) return this.sendError(DMChannel, this.axon.LangClass.fetchSnippet('dm_del_fail', { guildConf } ) );
+            if (msg.channel.messages.get(msg.id)) return this.sendError(DMChannel, this.axon.LangClass.fetchSnippet('del_msg_fail', { guildConf } ) );
         }
 
         const user = Resolver.member(msg.channel.guild, args[0]);

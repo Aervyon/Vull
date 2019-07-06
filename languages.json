@@ -3,6 +3,11 @@
         "test": "Hello",
 
         "user_notfound": "User not found!",
+        "channel_notfound": "Channel not found!",
+        "role_notfound": "Role not found!",
+        "role_notfound_custom": "Role `{custom}` not found!",
+        "role_user_notfound": "Could not find the user or role",
+        "del_msg_fail": "Unable to delete message",
 
         "lang_cl": "Current Language",
         "lang_gl": "Guild Language",
@@ -25,10 +30,25 @@
         "prefix_updated": "Updated your prefix to `{custom}`",
         "prefix_perms": "You do not have the permissions to execute this command! You need either: `manage server`, `administrator`, or you need to be a bot owner/admin",
 
-        "dm_del_fail": "Unable to delete message",
         "dm_msg_fail": "Unable to DM user",
         "dm_start": "DM from {guild}: ",
         "dm_success": "{custom} Sent a DM to `{user.name} ({user.id})`!",
-        "dm_field_cont": "DM Content"
+        "dm_field_cont": "DM Content",
+
+        "protected_limit": "Protected roles limit reached! Cannot add role!",
+        "protected_already": "Role is already protected!",
+        "protected_added": "Added role `{custom}` to the protected role list!",
+        "protected_none": "No protected roles found!",
+        "protected_for": "Protected roles for {guild.name}:",
+        "protected_removed": "Removed `{custom}` from the protected roles list!",
+        "protected_not": "Role `{custom}` is not protected!",
+
+        "addmod_already_user": "User {user.name} is already a moderator!",
+        "addmod_already_role": "Role {custom} is already a moderator!",
+        "addmod_added": "Added {custom} {custom} to the moderator list!",
+
+        "delmod_not_user": "User {user.name} is not a moderator!",
+        "delmod_not_role": "Role {custom} is not a moderator!",
+        "delmod_removed": "Removed {custom} {custom} from the moderator list!"
     }
 }

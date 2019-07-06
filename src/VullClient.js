@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import EventEmitter from 'eventemitter3';
 
-import LangClass from '../Declarations/LangClass';
+import LangClass from './LangClass';
 
 /**
  * Custom client constructor
