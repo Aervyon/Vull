@@ -11,7 +11,7 @@
     "startpm2": "node scripts/start.js"
   },
   "dependencies": {
-    "axoncore": "git://github.com/VoidNulll/AxonCore.git#dev",
+    "axoncore": "git://github.com/Khaazz/AxonCore.git#dev",
     "chalk": "^2.4.2",
     "eris": "https://github.com/Khaazz/eris.git#axoncore",
     "esm": "^3.2.22",
