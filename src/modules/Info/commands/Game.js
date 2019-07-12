@@ -98,7 +98,7 @@ class Game extends Command {
         return mess;
     }
 
-    static spotifyGame(member, title) {
+    spotifyGame(member, title) {
         let listened = new Date() - member.game.timestamps.start;
         const total = member.game.timestamps.end - member.game.timestamps.start;
         listened = moment.duration(listened, 'milliseconds').format('m[:]ss');
