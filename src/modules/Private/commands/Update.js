@@ -73,10 +73,17 @@ export class Update extends Command {
             updMess = pull.stdout;
         }
         catch (err) {
-            updMess = err.message || err;
+            update = false;
+            let mess = err.message || err;
+            mess = mess.split('\n');
+            let aMess = [];
+            for (const mes of mess) {
+                if (!mes.startsWith('Command Failed:') && !mes.startsWith('From https://') && !mes.startsWith(' * branch') && mess !== '\n') aMess.push(mes);
+            }
+            updMess = aMess.join('\n');
         }
 
-        return mess.edit(`${!update ? 'Update failed. Here is why:' : 'Update success! Git message:'} \`\`\`${updMess}\`\`\`${!update ? 'You will have to manually update Vull.' : 'Restart Vull to see these changes take place.'}`);
+        return mess.edit(`${!update ? 'Update failed. Here is why:' : 'Update success! Git message:'} \`\`\`${updMess}\`\`\`${!update ? 'You will have to manually update Vull, or stash your changes.' : 'Restart Vull to see these changes take place.'}`);
     }
 }
 export default Update;
