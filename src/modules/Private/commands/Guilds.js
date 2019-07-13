@@ -9,14 +9,16 @@ class Guilds extends Command {
         this.infos = {
             name: 'guilds',
             owner: ['Null'],
-            description: 'Show bot guilds',
+            description: 'Show bot guilds.\nSpecify "true" as the first argument to ignore the prompt, only if you are a bot owner.',
+            usage: 'guilds (true)',
+            examples: ['guilds', 'guilds true'],
         };
 
         this.permissions.staff.needed = this.axon.staff.admins;
         this.permissions.staff.bypass = this.axon.staff.owners;
     }
 
-    async execute( { msg } ) {
+    async execute( { msg, args } ) {
         let guilds = this.axon.client.guilds.map(g => `${g.name} (${g.id})`);
         guilds = guilds.join('\n');
         // eslint-disable-next-line no-magic-numbers
@@ -26,7 +28,12 @@ class Guilds extends Command {
 
         this.sendMessage(msg.channel, `\`\`\`\n${guilds}\`\`\``);
 
+        let doPrompt = true;
+        if (args[0] && args[0] === true) doPrompt = false;
+
         if (!this.axon.AxonUtils.isBotOwner(msg.author.id) ) return Promise.resolve();
+
+        if (!doPrompt) return Promise.resolve();
 
         const prompt = new Prompt(this.axon, msg.author.id, msg.channel, {
             deletePrompt: false,
