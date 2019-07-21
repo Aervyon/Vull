@@ -65,7 +65,7 @@ export class Update extends Command {
         }
 
         const mess = await this.sendMessage(msg.channel, `Updating from ${hash} to ${upstream.slice(0, 7)}...`);
-        const update = true;
+        let update = true;
         let updMess = 'null';
 
         try {
