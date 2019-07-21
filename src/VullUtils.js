@@ -15,7 +15,6 @@ class VullUtils extends Utils {
      * @prop yReg Regex to resolve years
      * @prop wReg Regex to resolve weeks
      * @prop timeReg Regex used to slice useless portions of a time string off
-     * @prop {Object} nums Permissions numbers, used for calculating permissions.
      * */
     constructor(...args) {
         super(...args);
@@ -25,71 +24,6 @@ class VullUtils extends Utils {
         this.yReg = /(y|year|yr|yrs|years)$/;
         this.wReg = /(w|week|weeks|ws)$/;
         this.timeReg = /, 0 [a-z]{5,}/ig;
-        this.nums = {
-            createInstantInvite: 1,
-            kickMembers: 2,
-            banMembers: 4,
-            administrator: 8,
-            manageChannels: 16,
-            manageGuild: 32,
-            addReactions: 64,
-            viewAuditLogs: 128,
-            voicePrioritySpeaker: 256,
-            readMessages: 1024,
-            sendMessages: 2048,
-            sendTTSMessages: 4096,
-            manageMessages: 8192,
-            embedLinks: 16384,
-            attachFiles: 32768,
-            readMessageHistory: 65536,
-            mentionEveryone: 131072,
-            externalEmojis: 262144,
-            voiceConnect: 1048576,
-            voiceSpeak: 2097152,
-            voiceMuteMembers: 4194304,
-            voiceDeafenMembers: 8388608,
-            voiceMoveMembers: 16777216,
-            voiceUseVAD: 33554432,
-            changeNickname: 67108864,
-            manageNicknames: 134217728,
-            manageRoles: 268435456,
-            manageWebhooks: 536870912,
-            manageEmojis: 1073741824,
-            all: 2146958847,
-            allGuild: 2080374975,
-            allText: 805829713,
-            allVoice: 871366929,
-        };
-    }
-
-    /**
-     * Calculate permissions using a object of perms
-     *
-     * @param {Object} data The permissions to calculate for
-     *
-     *  @returns {Object} Object containing the perms denied & allowed
-     */
-    calculate(data) {
-        let allow = 0;
-        let deny = 0;
-        for (const key of Object.keys(data) ) {
-            if (!this.nums[key] ) throw new AxonError(`Key ${key} not found!`, 'Enums');
-            if (data[key] === true) {
-                allow = Math.round(allow + this.nums[key] );
-            } else if (data[key] === false) {
-                deny = Math.round(deny + this.nums[key] );
-            }
-            if (key === 'all') {
-                if (data[key] === true) {
-                    allow = this.nums[key];
-                    break;
-                } else if (data[key] === false) {
-                    deny = this.nums[key];
-                    break;
-                }
-            }
-        }
-        return { allow, deny };
     }
 
     /**
@@ -101,7 +35,7 @@ class VullUtils extends Utils {
      *
      * @memberof VullUtils
      * */
-    static _isValidVullNum(ms) {
+    _isValidVullNum(ms) {
         if (Math.sign(ms) < 1) return 'MS cannot be negative or 0';
         if (isNaN(ms) ) return 'MS must be Number';
         if (!isFinite(ms) ) return 'MS cannot be Infinity';
