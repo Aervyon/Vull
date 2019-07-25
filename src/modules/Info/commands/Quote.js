@@ -56,7 +56,7 @@ class Quote extends Command {
         // Restructure
         if (mess.content) {
             let ncontent = mess.content;
-            if (mess.content.search(/<@!?\d+>/) ) {
+            if (mess.content.search(/<@!?\d+>/) && !mess.content.startsWith('> ') ) {
                 ncontent = mess.content.replace(/<@!?|>/g, '');
             }
             content = ncontent;
@@ -136,6 +136,12 @@ class Quote extends Command {
         const obj = {};
         if (content) obj.content = content;
         if (embed) obj.embed = embed;
+        if (obj.content.startsWith('> ') ) {
+            obj.content = null;
+            obj.embed = {
+                description: mess.content.slice(2),
+            };
+        }
         return this.sendMessage(msg.channel, obj);
     }
 }
