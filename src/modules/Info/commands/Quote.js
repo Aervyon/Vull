@@ -68,6 +68,13 @@ class Quote extends Command {
             color = roles[0].color || color;
         }
         const fmess = mess;
+        if (content.startsWith('> ') ) {
+            content = {
+                embed: {
+                    description: mess.content.slice(2),
+                },
+            };
+        }
         if (!mess.embeds || mess.embeds.length === 0) {
             if (content) {
                 await this.editMessage(messg, {
@@ -136,12 +143,6 @@ class Quote extends Command {
         const obj = {};
         if (content) obj.content = content;
         if (embed) obj.embed = embed;
-        if (obj.content.startsWith('> ') ) {
-            obj.content = null;
-            obj.embed = {
-                description: mess.content.slice(2),
-            };
-        }
         return this.sendMessage(msg.channel, obj);
     }
 }
