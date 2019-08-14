@@ -28,7 +28,8 @@ class ModCases extends Command {
         let modlogs = guildConf.cases.filter(mcase => mcase.user === user.id);
         if (!modlogs || modlogs.length === 0) return this.sendError(msg.channel, 'User has no cases!');
         modlogs = modlogs.sort( (a, b) => Number(b.id) - Number(a.id) );
-        modlogs = modlogs.splice(0, 15);
+        const maxModlogs = 15;
+        modlogs = modlogs.splice(0, maxModLogs);
         const mlogs = [];
         for (const modlog of modlogs) {
             let mod = Resolver.member(msg.channel.guild, modlog.mod) || Resolver.user(this.axon.client, modlog.mod);
@@ -41,7 +42,8 @@ class ModCases extends Command {
             mlogs.push(eh);
         }
         let file;
-        if (mlogs.join('\n').length > 1990) {
+        const maxLength = 1990;
+        if (mlogs.join('\n').length > maxLength) {
             file = {
                 file: Buffer.from(mlogs.join('\n') ),
                 name: `Vull_Modlogs_${msg.channel.guild.id}_${user.id}.txt`,

@@ -24,21 +24,22 @@ class Addmod extends Command {
             resolved = Resolver.role(msg.channel.guild, args.join(' ') );
             if (resolved) type = 'role';
         }
-        if (!resolved) return this.sendError(msg.channel, 'Could not find the user or role!');
+        if (!resolved) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('role_user_notfound', { guildConf } ) );
         if (type === 'user') {
-            if (guildConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, 'User is already a moderator');
+            if (guildConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('addmod_already_user', { guildConf, user: resolved } ) );
             guildConf.modUsers.push(resolved.id);
         } else if (type === 'role') {
-            if (guildConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, 'Role is already a moderator!');
+            if (guildConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('addmod_already_role', { guildConf, custom: resolved.name } ) );
             guildConf.modRoles.push(resolved.id);
         }
 
-        const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
+        await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
         if (type === 'role') {
             adj = 'Role';
         }
-        return this.sendSuccess(msg.channel, `Added ${adj} to the moderator list!`);
+        const name = type === 'user' ? `${resolved.user.username}#${resolved.user.discriminator}` : resolved.name;
+        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('addmod_added', { guildConf, custom: [adj, name] } ) );
     }
 }
 

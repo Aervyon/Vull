@@ -5,7 +5,7 @@ class Game extends Command {
     constructor(module) {
         super(module);
         this.label = 'game';
-        
+
         this.infos = {
             owners: ['Null'],
             description: 'Get some playing info',
@@ -86,7 +86,7 @@ class Game extends Command {
                 }
             }
             if (member.game.assets.small_image) {
-                mess.embed.author = { icon_url: `https://cdn.discordapp.com/app-assets/${member.game.application_id}/${member.game.assets.small_image}` };
+                mess.embed.author = { icon_url: `https://cdn.discordapp.com/app-assets/${member.game.application_id}/${member.game.assets.small_image}`, name: '​' };
                 if (member.game.assets.small_text) {
                     mess.embed.author.name = member.game.assets.small_text;
                 }
@@ -105,7 +105,7 @@ class Game extends Command {
         if (!listened.match(/d{1,2}:/) ) {
             listened = `0:${listened}`;
         }
-        const mess = {
+        return {
             embed: {
                 author: {
                     icon_url: 'https://cdn.discordapp.com/attachments/358674161566220288/496894273304920064/2000px-Spotify_logo_without_text.png',
@@ -135,7 +135,6 @@ class Game extends Command {
                 footer: { text: `${member.user.username}#${member.user.discriminator}`, icon_url: member.avatarURL },
             },
         };
-        return mess;
     }
 
     execute( { msg, args } ) {

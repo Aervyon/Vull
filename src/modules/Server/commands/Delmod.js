@@ -24,21 +24,22 @@ class Delmod extends Command {
             resolved = Resolver.role(msg.channel.guild, args.join(' ') );
             if (resolved) type = 'role';
         }
-        if (!resolved) return this.sendError(msg.channel, 'Could not find the user or role!');
+        if (!resolved) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('role_user_notfound', { guildConf } ) );
         if (type === 'user') {
-            if (!guildConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, 'User is not a moderator');
+            if (!guildConf.modUsers.includes(resolved.id) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('delmod_not_user', { guildConf, user: resolved } ) );
             guildConf.modUsers = guildConf.modUsers.filter(m => m !== resolved.id);
         } else if (type === 'role') {
-            if (!guildConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, 'Role is not a moderator!');
+            if (!guildConf.modRoles.includes(resolved.id) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('delmod_not_role', { guildConf, custom: resolved.name } ) );
             guildConf.modRoles = guildConf.modRoles.filter(m => m !== resolved.id);
         }
 
-        const gConf = await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
+        await this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         let adj = 'user';
         if (type === 'role') {
             adj = 'Role';
         }
-        return this.sendSuccess(msg.channel, `Removed ${adj} from the moderator list!`);
+        const name = type === 'user' ? `${resolved.user.username}#${resolved.user.discriminator}` : resolved.name;
+        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('delmod_removed', { guildConf, custom: [adj, name] } ) );
     }
 }
 

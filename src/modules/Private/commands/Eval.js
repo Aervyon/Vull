@@ -1,5 +1,6 @@
 import { Command } from 'axoncore';
 import { inspect } from 'util';
+// eslint-disable-next-line no-unused-vars
 import Guild from '../../../../models/Guild';
 
 class Eval extends Command {
@@ -19,8 +20,6 @@ class Eval extends Command {
         this.serverBypass = true;
 
         this.permissions.staff.needed = this.axon.staff.owners;
-
-        this.hasSubcmd = false;
     }
 
     async execute( { msg, args, /* eslint-disable */ guildConf /*eslnt-enable*/ } ) {
@@ -68,10 +67,9 @@ class Eval extends Command {
         } catch (err) {
             errored = 1;
             return this.sendMessage(msg.channel, `Eval errored. Check below\`\`\`js\n${err.message || err}\`\`\``);
-        } finally {
-            if (errored > 0) return Promise.resolve();
-            return this.sendMessage(msg.channel, `\`\`\`js\n${evaled}\`\`\``);
         }
+        if (errored > 0) return Promise.resolve();
+        return this.sendMessage(msg.channel, `\`\`\`js\n${evaled}\`\`\``);
     }
 }
 

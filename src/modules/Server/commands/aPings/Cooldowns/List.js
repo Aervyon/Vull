@@ -21,8 +21,9 @@ class List extends Command {
 
         if (!users || users.length === 0) return this.sendMessage(msg.channel, 'No users found!');
 
-        if (users.join('\n').length > 1024) {
-            users = users.join('\n').slice(0, 1024).split('\n');
+        const maxLength = 1024;
+        if (users.join('\n').length > maxLength) {
+            users = users.join('\n').slice(0, maxLength).split('\n');
         }
 
         return this.sendMessage(msg.channel, {

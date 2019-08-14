@@ -34,26 +34,18 @@ class Modlog extends Command {
             this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
             guildConf = await this.axon.getGuildConf(msg.channel.guild.id);
         }
-        if (guildConf.modLogChannel && guildConf.modLogChannel === channel.id && !args[1] ) return this.sendError(msg.channel, 'Mod log channel already set!');
+        if (guildConf.modLogChannel && guildConf.modLogChannel === channel.id && !args[1] ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('modlog_chan_already_set', { guildConf } ) );
         guildConf.modLogChannel = channel.id;
-        if ( [undefined, null].includes(guildConf.modLogStatus) ) {
-            if (args[1] && args[1] !== 'disable') {
-                guildConf.modLogStatus = true;
-            } else if (!args[1] ) guildConf.modLogStatus = true;
-        }
-        if (args[1] ) {
-            const types = { enable: true, disable: false };
-            const status = types[args[1]];
-            if (!status) return this.sendError(msg.channel, 'Invalid status!');
-            guildConf.modLogChannel = status;
-        }
+        if (args[1] && args[1] !== 'disable') {
+            guildConf.modLogStatus = true;
+        } else if (!args[1] && !guildConf.modLogStatus) guildConf.modLogStatus = true;
         this.axon.updateGuildConf(msg.channel.guild.id, guildConf);
         guildConf = await this.axon.getGuildConf(msg.channel.guild.id);
         if (!guildConf.modLogChannel) {
-            this.sendError(msg.channel, 'Error updating your guild config!');
+            this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('db_upd_err', { guildConf } ) );
             throw Error(`Could not update guild config (mod log channel)!`);
         }
-        return this.sendSuccess(msg.channel, 'Set your modlog channel!');
+        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('modlog_chan_set', { guildConf } ) );
     }
 }
 

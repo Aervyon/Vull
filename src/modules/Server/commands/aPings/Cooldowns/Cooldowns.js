@@ -2,7 +2,7 @@ import { Command } from 'axoncore';
 
 import Add from './Add';
 import Remove from './Remove';
-import List from './List'
+import List from './List';
 
 class Cooldowns extends Command {
     constructor(module) {

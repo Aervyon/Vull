@@ -40,7 +40,7 @@ class Listmods extends Command {
                 }
             }
         }
-        if ( (!mroles && !users) || (mroles.length === 0 && users.length === 0) ) return this.sendMessage(msg.channel, 'No moderators found for this server!');
+        if ( (!mroles && !users) || (mroles.length === 0 && users.length === 0) ) return this.sendMessage(msg.channel, this.axon.LangClass.fetchSnippet('lm_no_mods', { guildConf } ) );
         let color = this.axon.configs.template.embed.colors.help;
         if (msg.channel.guild.roles && msg.channel.guild.roles.size > 0) {
             let roles = msg.channel.guild.roles.filter(r => r.color !== 0);
@@ -48,19 +48,19 @@ class Listmods extends Command {
             color = roles[0].color || color;
         }
         const embed = {
-            title: `Moderators for ${msg.channel.guild.name}`,
+            title: this.axon.LangClass.fetchSnippet('lm_em_title', { guild: msg.channel.guild, guildConf } ),
             color,
             fields: [],
         };
         if (users.length > 0) {
             embed.fields.push( {
-                name: 'Users',
+                name: this.axon.LangClass.fetchSnippet('lm_field_users', { guildConf } ),
                 value: users.join('\n'),
             } );
         }
         if (mroles.length > 0) {
             embed.fields.push( {
-                name: 'Roles',
+                name: this.axon.LangClass.fetchSnippet('lm_field_role', { guildConf } ),
                 value: mroles.join('\n'),
             } );
         }

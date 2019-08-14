@@ -1,5 +1,7 @@
 import { Command, Resolver } from 'axoncore';
 
+import BanMatch from './Ban_match';
+
 class Ban extends Command {
     constructor(module) {
         super(module);
@@ -16,10 +18,10 @@ class Ban extends Command {
         this.options.guildOnly = true;
         this.options.argsMin = 1;
 
-        this.permissions.bot = [
-            'banMembers',
-            'sendMessages',
-        ];
+        this.hasSubcmd = true;
+        this.subcmds = [BanMatch];
+
+        this.permissions.bot = ['banMembers', 'sendMessages'];
     }
 
     async execute( { msg, args, guildConf } ) {
@@ -40,9 +42,10 @@ class Ban extends Command {
         if (!user) {
             return this.sendError(msg.channel, 'User not found!');
         }
-        msg.delete().catch(() => { /* --- */ });
+        msg.delete().catch( () => { /* --- */ } );
 
-        const reason = args[1] ? args.slice(1).join(' ') : 'No Reason';
+        const reason = args[1] ? args.slice(1)
+            .join(' ') : 'No Reason';
         if (user.joinedAt) {
             if (this.axon.AxonUtils.isAdmin(user) || this.axon.AxonUtils.isMod(user, guildConf) ) {
                 return this.sendError(msg.channel, 'That user is a mod/admin!');
@@ -54,7 +57,7 @@ class Ban extends Command {
                 }
             }
         }
-        
+
         try {
             await msg.channel.guild.banMember(user.id, 7, reason);
         } catch (err) {
@@ -67,10 +70,17 @@ class Ban extends Command {
         }
         user = user.user || user;
         const modcase = {
-            mod: msg.member.id, user: user.id, reason, id: String(guildConf.cases.length + 1), type: 'ban',
+            mod: msg.member.id,
+            user: user.id,
+            reason,
+            id: String(guildConf.cases.length + 1),
+            type: 'ban',
         };
         if (guildConf.modLogStatus) {
-            this.axon.client.emit('moderation', { modcase, guildConf } );
+            this.axon.client.emit('moderation', {
+                modcase,
+                guildConf,
+            } );
         } else {
             guildConf.cases.push(modcase);
             this.axon.updateGuildConf(msg.channel.guild.id, guildConf);

@@ -15,3 +15,8 @@ src/configs/mongoConf.json
 # Ignore logs
 
 logs/
+
+# Ignore typescript files
+
+**.ts
+**.ts**

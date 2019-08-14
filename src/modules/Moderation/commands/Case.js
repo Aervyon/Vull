@@ -24,8 +24,14 @@ class ModCase extends Command {
         const user = await this.axon.client.getRESTUser(modcase.user);
         const mod = guild.members.get(modcase.mod);
 
-        const good = ['unban'];
-        const bad = ['ban', 'kick'];
+        const good = ['unban', 'unmute'];
+        const bad = [
+            'ban',
+            'kick',
+            'massban',
+            'mute',
+            'ban match',
+        ];
         const neutral = ['warn'];
 
         const colors = {
@@ -61,20 +67,23 @@ class ModCase extends Command {
             color,
         };
 
+        if (modcase.type === 'mute') {
+            embed.fields.push( { name: 'Time', value: this.Utils.fullTimeFormat(modcase.mutedFor), inline: true } );
+        }
+
         return embed;
     }
 
-    rebuildEmbed(message) {
+    static rebuildEmbed(message) {
         if (!message.embeds[0] ) return null;
         const mEmbed = message.embeds[0];
         if (!mEmbed.title.startsWith('Moderation |') ) return null;
-        const embed = {
+        return {
             title: mEmbed.title,
             color: mEmbed.color,
             footer: mEmbed.footer,
             fields: mEmbed.fields,
         };
-        return embed;
     }
 
     async execute( { msg, args, guildConf } ) {
@@ -87,10 +96,10 @@ class ModCase extends Command {
                 const message = await this.axon.client.getMessage(mCase.cID, mCase.mID);
                 embed = this.rebuildEmbed(message);
             } catch (err) {
-                embed = this.genEmbed(mCase);
+                embed = await this.genEmbed(mCase, msg.channel.guild);
             }
         } else {
-            embed = this.genEmbed(mCase);
+            embed = await this.genEmbed(mCase, msg.channel.guild);
         }
         return this.sendMessage(msg.channel, { embed } );
     }

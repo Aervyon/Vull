@@ -20,7 +20,7 @@ class Channel extends Command {
         this.guildOnly = true;
     }
 
-    async execute( { msg, args } ) {
+    async execute( { msg, args, guildConf } ) {
         if (!args[0]) {
             return this.sendHelp(msg);
         }
@@ -37,11 +37,11 @@ class Channel extends Command {
         try {
             await msg.delete()
         } catch {
-            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, 'Command failed => Couldn\'t delete the message!');
+            if (msg.channel.messages.get(msg.id) && failsafe) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('del_msg_fail', { guildConf } ) );
         }
 
         if (!channel) {
-            return this.sendError(msg.channel, 'Command failed => Channel not found!');
+            return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('channel_notfound', { guildConf } ) );
         }
 
         const total = args.join(' ');

@@ -1,4 +1,5 @@
 import VullClient from './VullClient';
+import VullUtils from './VullUtils';
 import { Client } from 'eris';
 
 import axonConf from './configs/customConf.json';
@@ -11,7 +12,9 @@ const AxonOptions = {
     axonConf,
     templateConf,
     tokenConf,
+
     guildSchema: Guild,
+    utils: VullUtils,
 };
 
 const client = new Client(

@@ -23,8 +23,14 @@ class Moderation extends Event {
         const channel = guild.channels.get(guildConf.modLogChannel);
         const mod = Resolver.member(guild, modcase.mod);
 
-        const good = ['unban'];
-        const bad = ['ban', 'kick'];
+        const good = ['unban', 'unmute'];
+        const bad = [
+            'ban',
+            'kick',
+            'massban',
+            'mute',
+            'ban match',
+        ];
         const neutral = ['warn'];
 
         const colors = {
@@ -38,32 +44,46 @@ class Moderation extends Event {
         if (bad.includes(modcase.type) ) color = colors.bad;
         if (neutral.includes(modcase.type) ) color = colors.neutral;
 
-        this.axon.updateGuildConf(guildConf.guildID, guildConf);
-        if (!channel) return;
+        if (!channel && !modcase.type.match(/massban|ban match/) ) return this.axon.updateGuildConf(guildConf.guildID, guildConf);
+        const embed = {
+            title: `Moderation | ${type} | ID: ${modcase.id}`,
+            fields: [
+                {
+                    name: 'User',
+                    value: `${user.mention} (${user.username}#${user.discriminator})`,
+                    inline: true,
+                },
+                {
+                    name: 'Moderator',
+                    value: `${mod.mention}`,
+                    inline: true,
+                },
+                {
+                    name: 'Reason',
+                    value: modcase.reason,
+                    inline: true,
+                },
+            ],
+            footer: { text: `ID: ${user.id}` },
+            color,
+        };
+        if (modcase.type === 'massban' || modcase.type === 'ban match') {
+            const eh = modcase.id.match('-') ? `IDs: ${modcase.id}` : `ID: ${modcase.id}`;
+            embed.title = `Moderation | ${type} | ${eh}`;
+            embed.fields.shift();
+            embed.footer = null;
+        }
+        if (modcase.type === 'mute') {
+            embed.fields.push( {
+                name: 'Length',
+                value: this.axon.Utils.fullTimeFormat(modcase.mutedFor),
+                inline: true,
+            } );
+        }
         const message = await this.sendMessage(channel, {
-            embed: {
-                title: `Moderation | ${type} | ID: ${modcase.id}`,
-                fields: [
-                    {
-                        name: 'User',
-                        value: `${user.mention} (${user.username}#${user.discriminator})`,
-                        inline: true,
-                    },
-                    {
-                        name: 'Moderator',
-                        value: `${mod.mention}`,
-                        inline: true,
-                    },
-                    {
-                        name: 'Reason',
-                        value: modcase.reason,
-                        inline: true,
-                    },
-                ],
-                footer: { text: `ID: ${user.id}` },
-                color,
-            },
+            embed,
         } );
+        if (modcase.type === 'massban' || modcase.type === 'ban match') return;
         modcase.mID = message.id;
         modcase.cID = message.channel.id;
         guildConf.cases.push(modcase);

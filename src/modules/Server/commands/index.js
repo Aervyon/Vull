@@ -10,3 +10,5 @@ export { default as Addmod } from './Addmod';
 export { default as Delmod } from './Delmod';
 export { default as ModLog } from './ModLog/ModLog';
 export { default as Listmods } from './Listmods';
+export { default as Protected } from './Protected/Protected';
+export { default as Lang } from './Lang';

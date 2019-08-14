@@ -16,10 +16,7 @@ class Ban extends Command {
         this.options.guildOnly = true;
         this.options.argsMin = 1;
 
-        this.permissions.bot = [
-            'kickMembers',
-            'sendMessages',
-        ];
+        this.permissions.bot = ['kickMembers', 'sendMessages'];
     }
 
     async execute( { msg, args, guildConf } ) {
@@ -34,8 +31,7 @@ class Ban extends Command {
                 if (check) return this.sendError(msg.channel, 'User is protected!');
             }
         }
-        console.log('Perms checked');
-        msg.delete().catch(() => { /* --- */ })
+        msg.delete().catch( () => { /* --- */ } );
 
         const reason = args[1] ? args.slice(1).join(' ') : 'No reason';
 

@@ -24,32 +24,32 @@ class Enable extends Command {
         switch (args[0] ) {
             case 'command': {
                 const command = this.getCommand(args[1] );
-                if (!command) return this.sendError(msg.channel, 'Command not found!');
-                if (command.serverBypass === true) return this.sendError(msg.channel, 'Command is protected!');
-                if (!guildConf.commands.includes(args[1] ) ) return this.sendError(msg.channel, 'Command already enabled!');
+                if (!command) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('cmd_notfound', { guildConf } ) );
+                if (command.serverBypass === true) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('cmd_protected', { guildConf } ) );
+                if (!guildConf.commands.includes(args[1] ) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_already_enabled_cmd', { guildConf } ) );
                 try {
                     const conf = await this.axon.AxonUtils.updateGuildStateCommand(msg.channel.guild.id, args[1], true);
                     if (!conf.commands.includes(args[1] ) ) {
-                        return this.sendSuccess(msg.channel, 'Command enabled!');
+                        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('enable_enabled_cmd', { guildConf } ) );
                     }
-                    return this.sendError(msg.channel, 'Something unkmown happened while enabling the command!');
+                    return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_err_occurred_cmd', { guildConf } ) );
                 } catch (err) {
-                    return this.sendError(msg.channel, 'An error occured while enabling the command');
+                    return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_err_occurred_cmd', { guildConf } ) );
                 }
             }
             case 'module': {
                 const modul = this.getModule(args[1] );
-                if (!modul) return this.sendError(msg.channel, 'Module not found!');
-                if (modul.serverBypass === true) return this.sendError(msg.channel, 'Module is protected!');
-                if (!guildConf.modules.includes(args[1] ) ) return this.sendError(msg.channel, 'Module already enabled');
+                if (!modul) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('module_notfound', { guildConf } ) );
+                if (modul.serverBypass === true) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('module_protected', { guildConf } ) );
+                if (!guildConf.modules.includes(args[1] ) ) return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_already_enabled_module', { guildConf } ) );
                 try {
                     const conf = await this.axon.AxonUtils.updateGuildStateModule(msg.channel.guild.id, args[1], true);
                     if (!conf.modules.includes(args[1] ) ) {
-                        return this.sendSuccess(msg.channel, 'Module enabled!');
+                        return this.sendSuccess(msg.channel, this.axon.LangClass.fetchSnippet('enable_enabled_module', { guildConf } ) );
                     }
-                    return this.sendError(msg.channel, 'Something unknown happened while enabling the module!');
+                    return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_err_occurred_module', { guildConf } ) );
                 } catch (err) {
-                    return this.sendError(msg.channel, 'An error occured while enabling the module!');
+                    return this.sendError(msg.channel, this.axon.LangClass.fetchSnippet('enable_err_occurred_module', { guildConf } ) );
                 }
             }
             default: {

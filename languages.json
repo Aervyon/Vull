@@ -1,0 +1,94 @@
+{
+    "en": {
+        "test": "Hello",
+
+        "user_notfound": "User not found!",
+        "channel_notfound": "Channel not found!",
+        "role_notfound": "Role not found!",
+        "role_notfound_custom": "Role `{custom}` not found!",
+        "role_user_notfound": "Could not find the user or role",
+        "cmd_notfound": "Command not found!",
+        "cmd_protected": "Command is protected!",
+        "module_protected": "Module is protected!",
+        "module_notfound": "Module not found!",
+        "del_msg_fail": "Unable to delete message",
+        "db_upd_err": "Something unexpected happened while updating the database!",
+        "status": "Status",
+        "channel_id": "Channel (ID)",
+
+        "lang_cl": "Current Language",
+        "lang_gl": "Guild Language",
+        "lang_bl": "Bot Language",
+        "lang_codes": "Languages are represented by language codes.",
+        "lang_err": "Language `{custom}` not found!",
+        "lang_success": "Updated your guild language to `{custom}`!",
+
+        "lm_em_title": "Moderators for {guild.name}",
+        "lm_field_role": "Roles",
+        "lm_field_users": "Users",
+        "lm_no_mods": "No moderators found for this server!",
+
+        "nick_reason": "Updated by {user.name} ({user.id})",
+        "nick_reset": "Reset my nickname!",
+        "nick_change": "My nickname was set to `${custom}`",
+
+        "prefix_show": "The prefix for `{guild.name}` is `{custom}`.",
+        "prefix_limit": "Prefixes can have no more than 6 characters",
+        "prefix_updated": "Updated your prefix to `{custom}`",
+        "prefix_perms": "You do not have the permissions to execute this command! You need either: `manage server`, `administrator`, or you need to be a bot owner/admin",
+
+        "dm_msg_fail": "Unable to DM user",
+        "dm_start": "DM from {guild}: ",
+        "dm_success": "{custom} Sent a DM to `{user.name} ({user.id})`!",
+        "dm_field_cont": "DM Content",
+
+        "protected_limit": "Protected roles limit reached! Cannot add role!",
+        "protected_already": "Role is already protected!",
+        "protected_added": "Added role `{custom}` to the protected role list!",
+        "protected_none": "No protected roles found!",
+        "protected_for": "Protected roles for {guild.name}:",
+        "protected_removed": "Removed `{custom}` from the protected roles list!",
+        "protected_not": "Role `{custom}` is not protected!",
+
+        "addmod_already_user": "User {user.name} is already a moderator!",
+        "addmod_already_role": "Role {custom} is already a moderator!",
+        "addmod_added": "Added {custom} {custom} to the moderator list!",
+
+        "delmod_not_user": "User {user.name} is not a moderator!",
+        "delmod_not_role": "Role {custom} is not a moderator!",
+        "delmod_removed": "Removed {custom} {custom} from the moderator list!",
+
+        "diagnose_cmd_enabled": "Command is enabled",
+        "diagnose_cmd_disabled": "Command is disabled",
+        "diagnose_cmd_g_disabled": "Command is globally disabled",
+        "diagnose_module_enabled": "Module is enabled",
+        "diagnose_module_disabled": "Module is disabled\nAll commands within this module are disabled as well",
+        "diagnose_cmd_status": "Command Status: {custom}",
+        "diagnose_module_status": "Module Status: {custom}",
+        "diagnose_module_g_disabled": "Module is globally disabled\nAll commands within this module are disabled as well",
+        "diagnose_parent_module_disabled": "Parent module {custom} is disabled.",
+        "diagnose_parent_module_g_disabled": "Parent module {custom} is globally disabled.",
+
+        "disable_already_disabled_cmd": "Command is already disabled!",
+        "disable_disabled_cmd": "Disabled command!",
+        "disable_err_occurred_cmd": "An error occurred while disabling the command!",
+        "disable_already_disabled_module": "Module is already disabled!",
+        "disable_disabled_module": "Disabled module!",
+        "disable_err_occurred_module": "An error occurred while disabling the module!",
+
+        "enable_already_enabled_cmd": "Command is already enabled!",
+        "enable_enabled_cmd": "Enabled command!",
+        "enable_err_occurred_cmd": "An error occurred while enabling the command!",
+        "enable_already_enabled_module": "Module is already enabled!",
+        "enable_enabled_module": "Enabled module!",
+        "enable_err_occurred_module": "An error occurred while enabling the module!",
+
+        "modlog_chan_already_set": "Modlog channel already set!",
+        "modlog_chan_set": "Set your modlog channel!",
+        "modlog_nvr_disabled": "Modlogs aren't disabled.",
+        "modlog_nvr_enabled": "Modlogs aren't enabled.",
+        "modlog_enabled": "Modlogs enabled!",
+        "modlog_disabled": "Modlogs disabled!",
+        "modlog_settings": "Modlog Settings"
+    }
+}
