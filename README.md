@@ -34,3 +34,4 @@ I, Null#0515 (VoidNulll) take no responsibility for you're own actions, corrupte
 
 By using Vull, You agree to not modify, adapt, or change the Info command. You may also not modify, adapt, or change the acknowledgements part of the Who/Whois/Userinfo command. The usage nor the function nor where the function is used may be in any way altered, adapted, or changed for any reason.
 This stands unless I agree to allow You to modify, adapt, alter, or change any of these.
+This agreement stands in any and versions, names, forks, or usages of Vull
