@@ -10,6 +10,8 @@ import EventEmitter from 'eventemitter3';
 
 import LangClass from './LangClass';
 
+import tokenConfig from './configs/tokenConf';
+
 /**
  * Custom client constructor
  *
@@ -101,6 +103,7 @@ class VullClient extends AxonClient {
         this.deps.set('moment', moment);
         this.client.once('ready', this.onReady.bind(this) );
         this.ee.on('unmute', this.onUnmute.bind(this) );
+        this.configs._tokens.yt = tokenConfig.yt;
         return Promise.resolve();
     }
 
