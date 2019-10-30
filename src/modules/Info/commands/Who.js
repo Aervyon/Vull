@@ -168,9 +168,16 @@ class Who extends Command {
             const details = mem.game.details
                 ? `\n${mem.game.details}`
                 : '';
-            const full = `${type} ${mem.game.name} ${details}`;
+            let full = `${type} ${mem.game.name} ${details}`;
+            if (mem.game.type === 4) {
+                if (mem.game.emoji) {
+                    full = `<${mem.game.emoji.animated ? 'a:' : ':'}${mem.game.emoji.name}:${mem.game.emoji.id}> ${mem.game.state}`;
+                } else {
+                    full = mem.game.state;
+                }
+            }
             base.fields.push( {
-                name: 'Game',
+                name: mem.game.type !== 4 ? 'Game' : 'Custom Status',
                 value: full,
                 inline: true,
             } );
