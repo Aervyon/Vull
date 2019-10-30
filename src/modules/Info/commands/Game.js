@@ -14,6 +14,32 @@ class Game extends Command {
         };
     }
 
+    customStatus(member) {
+        let color = this.axon.configs.template.embed.colors.help;
+        if (member.roles && member.roles.length > 0) {
+            let roles = msg.channel.guild.roles.filter(r => member.roles.includes(r.id) );
+            roles = this.axon.Utils.sortRoles(roles);
+            const ncolor = roles.find(r => r.color !== 0);
+            color = (ncolor && ncolor.color) || this.axon.configs.template.embed.colors.help;
+        }
+        const embed = {
+            title: '${member.user.username} has a Custom status!',
+                fields: [
+                {
+                    name: 'Status',
+                    value: member.game.state,
+                    inline: true
+                },
+            ],
+            footer: { text: `${member.user.username}#${member.user.discriminator}`, icon_url: member.avatarURL },
+            color,
+        }
+        if (member.game.emoji) {
+            embed.fields[0].value = `<${member.game.emoji.animated ? 'a:' : ':'}${member.game.emoji.name}:${member.game.emoji.id}> ${member.game.state}`;
+        }
+        return embed;
+    }
+
     game(member, msg) {
         let color = this.axon.configs.template.embed.colors.help;
         if (member.roles && member.roles.length > 0) {
@@ -37,6 +63,9 @@ class Game extends Command {
             },
         };
         if (!member.game) return `${this.axon.configs.template.emote.error} ${member.user.username} is not playing any game!`;
+        if (member.game.type === 4) {
+            return this.customStatus(member);
+        }
         mess.embed.title = `${member.user.username} is ${types[member.game.type]} ${member.game.name}`;
         if (member.game.name === 'Spotify') {
             return this.spotifyGame(member, mess.embed.title);
