@@ -37,7 +37,7 @@ class Game extends Command {
         if (member.game.emoji) {
             embed.fields[0].value = `<${member.game.emoji.animated ? 'a:' : ':'}${member.game.emoji.name}:${member.game.emoji.id}> ${member.game.state}`;
         }
-        return embed;
+        return { embed };
     }
 
     game(member, msg) {
