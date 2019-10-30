@@ -23,7 +23,7 @@ class Game extends Command {
             color = (ncolor && ncolor.color) || this.axon.configs.template.embed.colors.help;
         }
         const embed = {
-            title: '${member.user.username} has a Custom status!',
+            title: `${member.user.username} has a Custom status!`,
                 fields: [
                 {
                     name: 'Status',
