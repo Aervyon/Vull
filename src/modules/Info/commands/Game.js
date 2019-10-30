@@ -14,7 +14,7 @@ class Game extends Command {
         };
     }
 
-    customStatus(member) {
+    customStatus(member, msg) {
         let color = this.axon.configs.template.embed.colors.help;
         if (member.roles && member.roles.length > 0) {
             let roles = msg.channel.guild.roles.filter(r => member.roles.includes(r.id) );
@@ -64,7 +64,7 @@ class Game extends Command {
         };
         if (!member.game) return `${this.axon.configs.template.emote.error} ${member.user.username} is not playing any game!`;
         if (member.game.type === 4) {
-            return this.customStatus(member);
+            return this.customStatus(member, msg);
         }
         mess.embed.title = `${member.user.username} is ${types[member.game.type]} ${member.game.name}`;
         if (member.game.name === 'Spotify') {
