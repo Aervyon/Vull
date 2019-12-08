@@ -1,6 +1,19 @@
 import { Command } from 'axoncore';
 import superagent from 'superagent';
 
+let conf;
+function toEnable() {
+    try {
+        conf = require(`${process.cwd()}/src/configs/cTokenConf.json`);
+        if (!conf || !conf.ytToken) {
+            throw Error('hi');
+        }
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 class YouTube extends Command {
     constructor(module) {
         super(module);
@@ -9,6 +22,7 @@ class YouTube extends Command {
         this.aliases = ['yt'];
 
         this.isSubcmd = false;
+        this.enabled = toEnable();
 
         this.infos = {
             owners: ['Null'],
@@ -28,7 +42,7 @@ class YouTube extends Command {
             throw Error('No YT API key or token!');
         }
 
-        const finale = await superagent.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=${query}&key=${this.axon.configs._tokens.yt.key}`);
+        const finale = await superagent.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=${query}&key=${conf.ytToken}`);
 
         if (!finale.ok) return this.sendError(msg.channel, 'Something went wrong while requesting from youtube. :(');
 

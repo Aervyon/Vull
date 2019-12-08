@@ -26,6 +26,19 @@ Replace `You're token here` with your bots token.
 
 Anything else in the config is yours to play around with.
 
+# Youtube and gitlab commands
+
+These commands are restricted by access tokens/keys from youtube or gitlab.
+Get the keys and put them in src/configs/cTokenConf.json as
+
+```json
+{
+  "ytToken": "youtubeTokenHere",
+  "glToken": "gitlab token here"
+}
+```
+(All are optional)
+
 # Liability
 
 I, Null#0515 (VoidNulll) take no responsibility for you're own actions, corrupted files, personal loss, or any sort of damages caused to you, you're company, or you're device. You are responsible for your actions on the internet and with what you run.
