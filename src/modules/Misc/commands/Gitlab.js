@@ -2,25 +2,12 @@ import { Command } from 'axoncore';
 import superagent from 'superagent';
 import moment from 'moment';
 
-let conf;
-function toEnable() {
-    try {
-        conf = require(`${process.cwd()}/src/configs/cTokenConf.json`);
-        if (!conf || !conf.glToken) {
-            throw Error('hi');
-        }
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-
 class Gitlab extends Command {
     constructor(module) {
         super(module);
         this.label = 'gitlab';
         this.aliases = ['gl'];
-        this.enabled = toEnable();
+        this.enabled = this.toEnable();
 
         this.infos = {
             owners: ['Null'],
@@ -28,6 +15,18 @@ class Gitlab extends Command {
             usage: 'gitlab [namespace/project or project]',
             example: 'gl Evolve-X',
         };
+    }
+
+    toEnable() {
+        try {
+            this.conf = require(`${process.cwd()}/src/configs/cTokenConf.json`);
+            if (!this.conf || !this.conf.glToken) {
+                throw Error('hi');
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     async execute( { msg, args } ) {
@@ -42,7 +41,7 @@ class Gitlab extends Command {
         let mssg = {};
         if (toSearch) {
             try {
-                const req = await superagent(`https://gitlab.com/api/v4/search?scope=projects&search=${search}`).set('Private-Token', conf.glToken);
+                const req = await superagent(`https://gitlab.com/api/v4/search?scope=projects&search=${search}`).set('Private-Token', this.conf.glToken);
                 if (!req.body) {
                     mssg = 'Repository not found!';
                 } else {
@@ -92,7 +91,7 @@ class Gitlab extends Command {
             }
         } else {
             try {
-                const req = await superagent(`https://gitlab.com/api/v4/projects/${search}`).set('Private-Token', conf.glToken);
+                const req = await superagent(`https://gitlab.com/api/v4/projects/${search}`).set('Private-Token', this.conf.glToken);
                 if (!req.body) {
                     mssg = 'Repository not found!';
                 } else {
