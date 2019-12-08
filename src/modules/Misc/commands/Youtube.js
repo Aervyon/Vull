@@ -4,7 +4,7 @@ import superagent from 'superagent';
 let conf;
 function toEnable() {
     try {
-        conf = require(`${process.cwd()}/src/configs/cTokenConf.json`);
+        conf = require(`${process.cwd().replace('src', '')}src/configs/cTokenConf.json`);
         if (!conf || !conf.ytToken) {
             throw Error('hi');
         }
