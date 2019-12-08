@@ -19,7 +19,7 @@ class Gitlab extends Command {
 
     toEnable() {
         try {
-            this.conf = require(`${process.cwd()}/src/configs/cTokenConf.json`);
+            this.conf = require(`${process.cwd().replace('src', '')}src/configs/cTokenConf.json`);
             if (!this.conf || !this.conf.glToken) {
                 throw Error('hi');
             }
