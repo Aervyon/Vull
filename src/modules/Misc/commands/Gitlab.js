@@ -1,13 +1,13 @@
 import { Command } from 'axoncore';
-import superagent from 'superagent';
 import moment from 'moment';
+import GitlabHandler from '../../../GitlabHandler';
 
 class Gitlab extends Command {
     constructor(module) {
         super(module);
         this.label = 'gitlab';
         this.aliases = ['gl'];
-        this.enabled = this.toEnable();
+        this.enabled = !!this.axon.GitLabHandler;
 
         this.infos = {
             owners: ['Null'],
@@ -15,6 +15,7 @@ class Gitlab extends Command {
             usage: 'gitlab [namespace/project or project]',
             example: 'gl Evolve-X',
         };
+        this.toEnable();
     }
 
     toEnable() {
@@ -33,113 +34,104 @@ class Gitlab extends Command {
         if (!args[0] ) {
             return this.sendError(msg.channel, 'Invalid command usage! Provide either namespace/project or project!');
         }
-        const search = args[0].split('/').length > 0 ? args[0].replace('/', '%2F') : args[0];
-        let toSearch = false;
-        if (!search.match('%2F') ) {
-            toSearch = true;
-        }
+        let search = args[0].split('/').length > 0 ? args[0].split('/') : args[0];
+        const toSearch = !Array.isArray(search);
+        search = search.join('/');
+        const aUrl = (args[1] && `https://${args[1].replace(/https?:\/\/|\//gi, '').toLowerCase()}`) || (this.axon.conf.glURL && `https://${this.axon.conf.glURL.replace(/https?:\/\/|\//gi, '').toLowerCase()}`) || 'https://gitlab.com/';
         let mssg = {};
         if (toSearch) {
-            try {
-                const req = await superagent(`https://gitlab.com/api/v4/search?scope=projects&search=${search}`).set('Private-Token', this.conf.glToken);
-                if (!req.body) {
-                    mssg = 'Repository not found!';
+            if ( (args[1] && this.axon.conf.glURL && args[1] !== this.axon.conf.glURL) || (args[1] && !args[1].match('gitlab.com') ) ) {
+                return this.sendError(msg.channel, 'Using search and a third party URL is NOT allowed.');
+            }
+            const repo = await this.axon.GitLabHandler.search('projects', search, aUrl);
+            if (!repo) {
+                mssg = 'Repository not found!';
+            } else if (typeof repo === 'string') {
+                if (repo === 'private') {
+                    mssg = 'Private repository or not found';
                 } else {
-                    const reg = new RegExp(`^${search}$`, 'i');
-                    const repo = req.body.find(project => project.name.match(reg) );
-                    if (!repo || typeof repo !== 'object') {
-                        mssg = 'Repository not found!';
-                    } else {
-                        mssg.embed = {
-                            fields: [
-                                {
-                                    name: 'URL',
-                                    value: `[${repo.name_with_namespace}](${repo.web_url})`,
-                                },
-                                {
-                                    name: 'Stars',
-                                    value: repo.star_count,
-                                },
-                                {
-                                    name: 'Forks',
-                                    value: repo.forks_count,
-                                },
-                                {
-                                    name: 'Last Activity',
-                                    value: moment(repo.last_activity_at).format('DD/MM/YYYY HH:mm'),
-                                },
-                                {
-                                    name: 'Created',
-                                    value: moment(repo.created_at).format('DD/MM/YYYY HH:mm'),
-                                },
-                            ],
-                            description: repo.description,
-                            thumbnail: { url: repo.avatar_url },
-                            author: {
-                                name: repo.namespace.name,
-                                icon_url: `https://gitlab.com${repo.namespace.avatar_url}`,
-                            },
-                        };
-                    }
+                    mssg = 'An Unknown Error Occurred';
                 }
-            } catch (e) {
-                if (e.request.notFound) {
-                    mssg = 'Repository not found!';
-                } if (e.request.unauthorized) {
-                    mssg = 'Private repository!';
+            } else if (typeof repo !== 'object') {
+                mssg = 'Repository not found!';
+            } else {
+                mssg.embed = {
+                    fields: [
+                        {
+                            name: 'URL',
+                            value: `[${repo.name_with_namespace}](${repo.web_url})`,
+                        },
+                        {
+                            name: 'Stars',
+                            value: repo.star_count,
+                        },
+                        {
+                            name: 'Forks',
+                            value: repo.forks_count,
+                        },
+                        {
+                            name: 'Last Activity',
+                            value: moment(repo.last_activity_at).format('DD/MM/YYYY HH:mm'),
+                        },
+                        {
+                            name: 'Created',
+                            value: moment(repo.created_at).format('DD/MM/YYYY HH:mm'),
+                        },
+                    ],
+                    description: repo.description,
+                    thumbnail: { url: repo.avatar_url },
+                };
+                if (repo.namespace) {
+                    mssg.embed.author = {
+                        name: repo.namespace.name,
+                        icon_url: `${aUrl.replace(/\/$/gi, '')}${repo.namespace.avatar_url}`,
+                    };
                 }
             }
         } else {
-            try {
-                const req = await superagent(`https://gitlab.com/api/v4/projects/${search}`).set('Private-Token', this.conf.glToken);
-                if (!req.body) {
-                    mssg = 'Repository not found!';
+            const repo = await this.axon.GitLabHandler.exact(search, aUrl);
+            if (!repo) {
+                mssg = 'Repository not found!';
+            } else if (typeof repo === 'string') {
+                if (repo === 'private') {
+                    mssg = 'Private repository or not found';
                 } else {
-                    const repo = req.body;
-                    if (!repo || typeof repo !== 'object' || !repo.namespace || !repo.name_with_namespace || !repo.web_url || !repo.created_at) {
-                        mssg = 'Repository not found!';
-                    } else {
-                        mssg.embed = {
-                            fields: [
-                                {
-                                    name: 'URL',
-                                    value: `[${repo.name_with_namespace}]${repo.web_url}`,
-                                },
-                                {
-                                    name: 'Stars',
-                                    value: repo.star_count,
-                                },
-                                {
-                                    name: 'Forks',
-                                    value: repo.forks_count,
-                                },
-                                {
-                                    name: 'Last Activity',
-                                    value: moment(repo.last_activity_at).format('DD/MM/YYYY HH:mm'),
-                                },
-                                {
-                                    name: 'Created',
-                                    value: moment(repo.created_at).format('DD/MM/YYYY HH:mm'),
-                                },
-                            ],
-                            description: repo.description,
-                            thumbnail: { url: repo.avatar_url },
-                            author: {
-                                name: repo.namespace.name,
-                                icon_url: `https://gitlab.com${repo.namespace.avatar_url}`,
-                            },
-                        };
-                    }
+                    mssg = 'An Unknown Error Occurred';
                 }
-            } catch (e) {
-                if (e.code && e.code === 'ENOTFOUND') {
-                    mssg = 'Repository not found!';
-                } else if (!e.response) {
-                    mssg = 'Unknown Error Occurred.';
-                } else if (e.response.notFound) {
-                    mssg = 'Repository not found!';
-                } else if (e.response.unauthorized) {
-                    mssg = 'Private repository!';
+            } else if (typeof repo !== 'object') {
+                mssg = 'Repository not found!';
+            } else {
+                mssg.embed = {
+                    fields: [
+                        {
+                            name: 'URL',
+                            value: `[${repo.name_with_namespace}](${repo.web_url})`,
+                        },
+                        {
+                            name: 'Stars',
+                            value: repo.star_count,
+                        },
+                        {
+                            name: 'Forks',
+                            value: repo.forks_count,
+                        },
+                        {
+                            name: 'Last Activity',
+                            value: moment(repo.last_activity_at).format('DD/MM/YYYY HH:mm'),
+                        },
+                        {
+                            name: 'Created',
+                            value: moment(repo.created_at).format('DD/MM/YYYY HH:mm'),
+                        },
+                    ],
+                    description: repo.description,
+                    thumbnail: { url: repo.avatar_url },
+                };
+                if (repo.namespace) {
+                    mssg.embed.author = {
+                        name: repo.namespace.name,
+                        icon_url: `${aUrl.replace(/\/$/gi, '')}${repo.namespace.avatar_url}`,
+                    };
                 }
             }
         }

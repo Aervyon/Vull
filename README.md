@@ -33,8 +33,9 @@ Get the keys and put them in src/configs/cTokenConf.json as
 
 ```json
 {
-  "ytToken": "youtubeTokenHere",
-  "glToken": "gitlab token here"
+  "ytToken": "youtubeTokenHere, optional",
+  "glToken": "gitlab token here, optional.",
+  "glURL": "URL of the gitlab instance here, optional"
 }
 ```
 (All are optional)

@@ -11,6 +11,8 @@ import EventEmitter from 'eventemitter3';
 import LangClass from './LangClass';
 
 import tokenConfig from './configs/tokenConf';
+import GitLabHandler from './GitlabHandler';
+import { join } from 'path';
 
 /**
  * Custom client constructor
@@ -100,6 +102,18 @@ class VullClient extends AxonClient {
     }
 
     async init() {
+        try {
+            this.cwd = process.cwd();
+            const conf = require(`${join(process.cwd().replace('src', ''), './src/configs')}/cTokenConf.json`);
+            this.conf = conf;
+            if (conf && conf.glToken) {
+                this.GitLabHandler = new GitLabHandler(conf.glToken);
+                this.commands.get('gitlab').enabled = true;
+            }
+        } catch (e) {
+            // Do nothing.
+        }
+
         this.deps.set('moment', moment);
         this.client.once('ready', this.onReady.bind(this) );
         this.ee.on('unmute', this.onUnmute.bind(this) );
