@@ -22,8 +22,11 @@ class Nick extends Command {
 
         let output = await this.axon.client.editNickname(msg.channel.guild.id, nick, this.axon.LangClass.fetchSnippet('nick_reason', { msg, guildConf } ) );
 
-        if (output.nick === this.axon.client.user.username || !output.nick) output = this.axon.LangClass.fetchSnippet('nick_reset', { guildConf } );
-        else output = this.axon.LangClass.fetchSnippet('nick_change', { guildConf, custom: output.nick } );
+        if (output.nick === this.axon.client.user.username || !output.nick) {
+            output = this.axon.LangClass.fetchSnippet('nick_reset', { guildConf } );
+        } else {
+            output = this.axon.LangClass.fetchSnippet('nick_change', { guildConf, custom: output.nick } );
+        }
 
         return this.sendMessage(msg.channel, output);
     }

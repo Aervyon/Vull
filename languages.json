@@ -30,7 +30,7 @@
 
         "nick_reason": "Updated by {user.name} ({user.id})",
         "nick_reset": "Reset my nickname!",
-        "nick_change": "My nickname was set to `${custom}`",
+        "nick_change": "My nickname was set to `{custom}`",
 
         "prefix_show": "The prefix for `{guild.name}` is `{custom}`.",
         "prefix_limit": "Prefixes can have no more than 6 characters",
