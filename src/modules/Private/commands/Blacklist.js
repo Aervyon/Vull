@@ -22,7 +22,7 @@ class Blacklist extends Command {
         let guild = false;
         if (args[0].match(/^\d+$/) ) {
             try {
-                const g = await this.bot.getRESTGuild(args[0]);
+                const g = await this.bot.getRESTGuild(args[0] );
                 guild = args[0];
             } catch (e) {
                 if (e.message && e.message.match('Missing Access') ) {
@@ -31,6 +31,21 @@ class Blacklist extends Command {
             }
         }
         return guild;
+    }
+
+    updateBlacklistGuilds(blacklistedGuilds) {
+        return this.axon.DBprovider.AxonSchema.findOneAndUpdate( {
+            ID: '1',
+        },
+        {
+            $set: {
+                bannedGuilds: blacklistedGuilds,
+            },
+        },
+        {
+            new: true,
+            upsert: true,
+        } );
     }
 
     async execute( { msg, args } ) {
@@ -85,7 +100,7 @@ class Blacklist extends Command {
             }
             arr = arr || [Resolved.id];
             console.log(arr);
-            axon = await this.axon.DBprovider.updateBlacklistGuild(arr);
+            axon = await this.updateBlacklistGuilds(arr);
             console.log(axon);
             if (!axon.bannedGuilds.includes(Resolved.id) ) {
                 return this.sendError(msg.channel, 'Something went wrong while blacklisting');

@@ -17,6 +17,21 @@ class Unblacklist extends Command {
 
         this.options.argsMin = 1;
     }
+    
+    updateBlacklistGuilds(blacklistedGuilds) {
+        return this.axon.DBprovider.AxonSchema.findOneAndUpdate( {
+            ID: '1',
+        },
+        {
+            $set: {
+                bannedGuilds: blacklistedGuilds,
+            },
+        },
+        {
+            new: true,
+            upsert: true,
+        } );
+    }
 
     async execute( { msg, args } ) {
         let Resolved = Resolver.member(msg.channel.guild, args.join(' ') ) || Resolver.user(this.axon.client, args.join(' ') );
@@ -30,17 +45,23 @@ class Unblacklist extends Command {
                 type = 'guild';
             }
         }
-        if (!Resolved) return this.sendError(msg.channel, 'User/Guild not found!');
+        if (!Resolved) {
+            return this.sendError(msg.channel, 'User/Guild not found!');
+        }
         let axon = await this.axon.fetchAxonConf();
         let message,
             arr;
         if (type === 'user') {
             const user = Resolved.user || Resolved;
             if (axon.bannedUsers && axon.bannedUsers.length > 0) {
-                if (!axon.bannedUsers.includes(Resolved.id) ) return this.sendMessage(msg.channel, 'User is not blacklisted!');
+                if (!axon.bannedUsers.includes(Resolved.id) ) {
+                    return this.sendMessage(msg.channel, 'User is not blacklisted!');
+                }
                 arr = axon.bannedUsers.filter(u => u !== Resolved.id);
                 axon = await this.axon.DBprovider.updateBlacklistUser(arr);
-                if (axon.bannedUsers.includes(Resolved.id) ) return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+                if (axon.bannedUsers.includes(Resolved.id) ) {
+                    return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+                }
                 this.axon.blacklistedUsers.delete(Resolved.id);
                 message = `Unblacklisted ${user.username}#${user.discriminator}`;
             } else {
@@ -49,10 +70,14 @@ class Unblacklist extends Command {
         }
         if (type === 'guild') {
             if (axon.bannedGuilds && axon.bannedGuilds.length > 0) {
-                if (!axon.bannedGuilds.includes(Resolved.id) ) return this.sendMessage(msg.channel, 'Guild is not blacklisted!');
+                if (!axon.bannedGuilds.includes(Resolved.id) ) {
+                    return this.sendMessage(msg.channel, 'Guild is not blacklisted!');
+                }
                 arr = axon.bannedGuilds.filter(g => g !== Resolved.id);
-                axon = await this.axon.DBprovider.updateBlacklistGuild(arr);
-                if (axon.bannedGuilds.includes(Resolved.id) ) return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+                axon = await this.updateBlacklistGuilds(arr);
+                if (axon.bannedGuilds.includes(Resolved.id) ) {
+                    return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+                }
                 this.axon.blacklistedGuilds.delete(Resolved.id);
                 message = `Unblacklisted ${Resolved.name}`;
             }
