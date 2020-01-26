@@ -23,9 +23,9 @@ class Blacklist extends Command {
         if (args[0].match(/^\d+$/) ) {
             try {
                 const g = await this.bot.getRESTGuild(args[0]);
-                guild = !!g;
+                guild = args[0];
             } catch (e) {
-                if (e.match('Missing Access') ) {
+                if (e.message && e.message.match('Missing Access') ) {
                     guild = args[0];
                 }
             }
