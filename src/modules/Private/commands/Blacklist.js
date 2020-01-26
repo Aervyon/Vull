@@ -18,6 +18,21 @@ class Blacklist extends Command {
         this.options.argsMin = 1;
     }
 
+    async fetchGuild(args) {
+        let guild = false;
+        if (args[0].match(/^\d+$/) ) {
+            try {
+                const g = await this.bot.getRESTGuild(args[0]);
+                guild = !!g;
+            } catch (e) {
+                if (e.match('Missing Access') ) {
+                    guild = args[0];
+                }
+            }
+        }
+        return guild;
+    }
+
     async execute( { msg, args } ) {
         let Resolved = Resolver.member(msg.channel.guild, args.join(' ') ) || Resolver.user(this.axon.client, args.join(' ') );
         let type = 'user';
@@ -27,36 +42,54 @@ class Blacklist extends Command {
             }
             if (!Resolved) {
                 Resolved = Resolver.guild(this.axon.client, args);
+                if (!Resolved) {
+                    const id = await this.fetchGuild(args);
+                    if (id) {
+                        Resolved = { id };
+                    }
+                }
                 type = 'guild';
             }
         }
-        if (!Resolved) return this.sendError(msg.channel, 'User/Guild not found!');
+        if (!Resolved) {
+            return this.sendError(msg.channel, 'User/Guild not found!');
+        }
         let axon = await this.axon.fetchAxonConf();
         let message,
             arr;
         if (type === 'user') {
             const user = Resolved.user || Resolved;
-            if (!!this.axon.AxonUtils.isBotOwner(Resolved.id) || this.axon.AxonUtils.isBotAdmin(Resolved.id) ) return this.sendError(msg.channel, 'Bot staff cannot be blacklisted!');
+            if (!!this.axon.AxonUtils.isBotOwner(Resolved.id) || this.axon.AxonUtils.isBotAdmin(Resolved.id) ) {
+                return this.sendError(msg.channel, 'Bot staff cannot be blacklisted!');
+            }
             if (axon.bannedUsers && axon.bannedUsers.length > 0) {
-                if (axon.bannedUsers.includes(Resolved.id) ) return this.sendMessage(msg.channel, 'User is already blacklisted!');
+                if (axon.bannedUsers.includes(Resolved.id) ) {
+                    return this.sendMessage(msg.channel, 'User is already blacklisted!');
+                }
                 arr = axon.bannedUsers.concat( [Resolved.id] );
             }
             arr = arr || [Resolved.id];
             axon = await this.axon.DBprovider.updateBlacklistUser(arr);
-            if (!axon.bannedUsers.includes(Resolved.id) ) return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+            if (!axon.bannedUsers.includes(Resolved.id) ) {
+                return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+            }
             this.axon.blacklistedUsers.add(Resolved.id);
             message = `Blacklisted ${user.username}#${user.discriminator}`;
         }
         if (type === 'guild') {
             if (axon.bannedGuilds && axon.bannedGuilds.length > 0) {
-                if (axon.bannedGuilds.includes(Resolved.id) ) return this.sendMessage(msg.channel, 'Guild is already blacklisted!');
+                if (axon.bannedGuilds.includes(Resolved.id) ) {
+                    return this.sendMessage(msg.channel, 'Guild is already blacklisted!');
+                }
                 arr = axon.bannedGuilds.concat( [Resolved.id] );
             }
             arr = arr || [Resolved.id];
             axon = await this.axon.DBprovider.updateBlacklistGuild(arr);
-            if (!axon.bannedGuilds.includes(Resolved.id) ) return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+            if (!axon.bannedGuilds.includes(Resolved.id) ) {
+                return this.sendError(msg.channel, 'Something went wrong while blacklisting');
+            }
             this.axon.blacklistedGuilds.add(Resolved.id);
-            message = `Blacklisted ${Resolved.name}`;
+            message = `Blacklisted ${Resolved.name ? Resolved.name : `Guild ${Resolved.id}`}`;
         }
         return this.sendSuccess(msg.channel, message);
     }
