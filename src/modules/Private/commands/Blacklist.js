@@ -99,9 +99,7 @@ class Blacklist extends Command {
                 arr = axon.bannedGuilds.concat( [Resolved.id] );
             }
             arr = arr || [Resolved.id];
-            console.log(arr);
             axon = await this.updateBlacklistGuilds(arr);
-            console.log(axon);
             if (!axon.bannedGuilds.includes(Resolved.id) ) {
                 return this.sendError(msg.channel, 'Something went wrong while blacklisting');
             }
