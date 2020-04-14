@@ -1,4 +1,4 @@
-import { Command } from 'axoncore';
+import { Command, Resolver } from 'axoncore';
 
 class Unmute extends Command {
     constructor(module) {
