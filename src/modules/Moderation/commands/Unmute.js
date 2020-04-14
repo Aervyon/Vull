@@ -24,13 +24,13 @@ class Unmute extends Command {
     }
 
     async execute( { msg, args, guildConf } ) {
-        const user = this.axon.Resolver.member(msg.channel.guild, args[0] );
+        const user = Resolver.member(msg.channel.guild, args[0] );
         if (!user) return this.sendError(msg.channel, 'User not found!');
         const modcase = guildConf.cases.find(cas => cas.user === user.id && cas.status === 'muted');
         if (!modcase) return this.sendError(msg.channel, `${user.user.username} is not muted!`);
         const reason = args.slice(1).join(' ') || 'No reason';
         const index = guildConf.cases.indexOf(modcase);
-        
+
         if (!guildConf.mutedRole) return this.sendError(msg.channel, 'Cannot find the muted role (Vull Database)!');
         const role = msg.channel.guild.roles.get(guildConf.mutedRole);
         if (!role) return this.sendError(msg.channel, 'Cannot find the muted role (Server)!');

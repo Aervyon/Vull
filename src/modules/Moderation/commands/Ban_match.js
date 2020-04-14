@@ -1,4 +1,4 @@
-import { Command, Prompt } from 'axoncore';
+import { Command, Prompt, Resolver } from 'axoncore';
 
 class BanMatch extends Command {
     constructor(module) {
@@ -49,7 +49,7 @@ class BanMatch extends Command {
 
         for (const id of ids) {
             let add = true;
-            let user = this.axon.Resolver.member(msg.channel.guild, id) || this.axon.Resolver.user(this.axon.client, id);
+            let user = Resolver.member(msg.channel.guild, id) || Resolver.user(this.axon.client, id);
             let mem;
             if (user) {
                 mem = user;
