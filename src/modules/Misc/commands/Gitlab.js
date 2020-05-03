@@ -1,6 +1,5 @@
 import { Command } from 'axoncore';
 import moment from 'moment';
-import GitlabHandler from '../../../GitlabHandler';
 
 class Gitlab extends Command {
     constructor(module) {
