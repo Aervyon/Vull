@@ -28,6 +28,7 @@ class VullClient extends AxonClient {
         this.deps = new Map();
         this.ee = new EventEmitter();
         this.LangClass = new LangClass();
+        this.LangClass.init();
     }
 
     static get Resolver() {
@@ -63,7 +64,6 @@ class VullClient extends AxonClient {
     }
 
     async onReady() {
-        await this.LangClass.init();
         const Guild = this.schemas.get('guildSchema');
         let guilds = await Guild.find();
         guilds = guilds.filter(g => g.cases.find(cas => cas.status === 'muted') );

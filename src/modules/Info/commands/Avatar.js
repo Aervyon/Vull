@@ -8,7 +8,7 @@ class Avatar extends Command {
 
         this.infos = {
             owners: ['Null'],
-            description: 'Show off a avatar',
+            description: 'Show off an avatar',
             usage: 'avatar (user)',
             examples: ['avatar Null', 'avatar'],
         };
