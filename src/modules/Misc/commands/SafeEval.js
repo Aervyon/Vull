@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { Command, Resolver } from 'axoncore';
+import { Command } from 'axoncore';
 import { VM } from 'vm2';
 import util from 'util';
 import moment from 'moment';
@@ -47,7 +47,7 @@ class SafeEval extends Command {
         try {
             const vm = new VM( {
                 sandbox: {
-                    util, Resolver, msg, args, moment,
+                    util, args, moment,
                 },
             } );
 

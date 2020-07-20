@@ -76,7 +76,7 @@ class Github extends Command {
                     },
                     {
                         name: 'License',
-                        value: repo.license.name,
+                        value: (repo.license && repo.license.name) || 'N/A',
                         inline: true,
                     },
                     {
