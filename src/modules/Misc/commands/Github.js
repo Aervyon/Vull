@@ -51,7 +51,7 @@ class Github extends Command {
                 fields: [
                     {
                         name: 'Language',
-                        value: repo.language,
+                        value: repo.language || 'N/A',
                         inline: true,
                     },
                     {
