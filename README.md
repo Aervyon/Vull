@@ -28,7 +28,7 @@ Anything else in the config is yours to play around with.
 
 # Liability
 
-I, Null#0515 (VoidNulll) take no responsibility for youre own actions, corrupted files, personal loss, or any sort of damages caused to you, youre company, or youre device. You are responsible for your actions on the internet and with what you run.
+I, Null#0515 (VoidNulll) take no responsibility for your own actions, corrupted files, personal loss, or any sort of damages caused to you, your company, or your device. You are responsible for your actions on the internet and with what you run.
 
 # Agreement
 
