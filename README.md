@@ -16,11 +16,11 @@ Edit the config file to look something like this:
 ```
 {
     "bot": {
-        "token": "You're token here"
+        "token": "Your token here"
     }
 }
 ```
-Replace `You're token here` with your bots token.
+Replace `Your token here` with your bots token.
 
 # Configs
 
