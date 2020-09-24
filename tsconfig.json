@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    // "incremental": true,                   /* Enable incremental compilation */
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": false, // Due to a bug in TypeScript this option has been disabled
+    // The option will be re-enabled once TypeScript fixes the bug,
+    "resolveJsonModule": true
+  },
+  "include": [ "src" ],
+}

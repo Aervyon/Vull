@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.insertSpaces": true,
+        "editor.autoIndent": "full",
+        "editor.tabSize": 4,
+
+        "editor.wordWrap": "off",
+        "files.eol": "\n",
+
+        // files
+        "files.insertFinalNewline": true,
+
+        // vsCode eslint support
+        "eslint.enable": true,
+        "eslint.validate": ["typescript"],
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        },
+    }
+}

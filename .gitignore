@@ -1,0 +1,3 @@
+dist/
+configs/secret.json
+node_modules/
