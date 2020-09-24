@@ -8,18 +8,22 @@
         "guildConfigCache": 1000
     },
     "prefixes": {
-        "general": "a!",
-        "admin": "a.",
-        "owner": "a$"
+        "general": "v3!",
+        "admin": "v.",
+        "owner": "v$"
     },
     "info": {
         "name": "Vull v3 | Arin",
-        "description": "AxonCore - Description",
-        "version": "0.1.0"
+        "description": "Vull V3: An experimental rewrite of Vull",
+        "version": "3.0.0"
     },
     "staff": {
-        "owners": [{ "name": "", "id": "" }],
-        "admins": [{ "name": "", "id": "" }]
+        "owners": [
+            { "name": "323673862971588609", "id": "323673862971588609" }
+        ],
+        "admins": [
+            { "name": "", "id": "" }
+        ]
     },
     "template": {
         "embeds": {
