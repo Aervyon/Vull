@@ -4,7 +4,7 @@
         "debugMode": true,
         "library": 0,
         "logger": 0,
-        "db": 1,
+        "db": 0,
         "guildConfigCache": 1000
     },
     "prefixes": {

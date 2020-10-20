@@ -1,15 +1,16 @@
-import Eris from 'eris';
-import MongoProvider from './Structures/Database/MongoProvider';
-import { AxonOptions, ADBProvider } from 'axoncore';
+// Node things here
+import path from 'path';
 
-console.log(MongoProvider instanceof ADBProvider); // Expected: True
-// Got: False
+import Eris from 'eris';
+import { MongoProvider } from './Structures/Database/MongoProvider';
+import { AxonOptions } from 'axoncore';
 
 import Client from './Structures/Client';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import botConfig from '../configs/config.json'; // @ts-ignore
-import secret from '../configs/secret.json';
+import secret from '../configs/secret.json'; // Hi yes TS I know this doesn't always exist just shut up
+// This a pre-production version of Vull V3. This error pertains more to the user.
 import lang from '../configs/lang.json';
 
 import MyUtils from './MyUtils';
@@ -27,11 +28,11 @@ const axonOptions = new AxonOptions( {
 },
 // webhooks
 secret.webhooks,
-// extensions
 {
-    utils: MyUtils, // use your own Utils
-    logger: null, // custom Logger
+    utils: MyUtils, // use own Utils added to the ones provided by AxonCore
     DBProvider: MongoProvider, // custom DB Service
+    DBLocation: path.join(__dirname, '../database/'), // Temp fix until the afformentioned DBProvider works.
+
 } );
 
 /**

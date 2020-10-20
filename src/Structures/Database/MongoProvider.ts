@@ -36,7 +36,7 @@ import AxonSchema, { Axon } from './Mongo_Models/AxonSchema';
  * @prop {AxonSchema} AxonSchema
  * @prop {GuildSchema} GuildSchema
  */
-class MongoProvider extends ADBProvider {
+export class MongoProvider extends ADBProvider {
     public AxonSchema: Model<Axon>;
 
     public GuildSchema: Model<Guild>;

@@ -30,7 +30,7 @@ class Eval extends Command {
         this.aliases = ['eval', 'e'];
 
         this.info = {
-            owners: ['KhaaZ'],
+            owners: ['KhaaZ', 'VoidNulll'],
             name: 'eval',
             description: 'Eval js code.',
             usage: 'eval [js code]',
@@ -52,25 +52,36 @@ class Eval extends Command {
 
     async execute(env: CommandEnvironment): Promise<CommandResponse> {
         const { msg, args, guildConfig } = env;
+        let depth = 0;
+        if ( ['--depth', '-d'].includes(args[0] ) ) {
+            args.shift();
+            if (!isNaN(Number(args[0] ) ) ) {
+                depth = Number(args[0] );
+            }
+            args.shift();
+        }
         let evalString;
+        const evString = args.join(' ').split('\n').reverse();
+        evString[0] = `return ${evString[0]}`;
+        const evalInp = evString.reverse().join('\n');
         try {
             // eslint-disable-next-line no-eval
-            evalString = await eval(args.join(' ') );
+            evalString = await eval(`(async () => { ${evalInp} })()`);
 
             if (typeof evalString === 'object') {
-                evalString = nodeUtil.inspect(evalString, { depth: 0, showHidden: true } );
+                evalString = nodeUtil.inspect(evalString, { depth, showHidden: true } );
             } else {
                 evalString = String(evalString);
             }
         } catch (err) {
             this.logger.debug(err.stack);
-            return this.sendError(msg.channel, err.message ? err.message : `Error: ${err}`);
+            return this.sendError(msg.channel, err.message ? err.message : `Error: \`\`\`js\n${err}\`\`\`Check logs for more information.`);
         }
 
         evalString = this.cleanUpToken(evalString);
 
         if (evalString.length === 0) {
-            return this.sendError(msg.channel, 'Nothing to evaluate.');
+            return this.sendError(msg.channel, 'Error 404: Output.html not found.');
         }
 
         const splitEvaled = evalString.match(/[\s\S]{1,1900}[\n\r]/g) || [evalString];
