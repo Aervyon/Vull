@@ -2,8 +2,10 @@
 import path from 'path';
 
 import Eris from 'eris';
-import { MongoProvider } from './Structures/Database/MongoProvider';
-import { AxonOptions } from 'axoncore';
+import MongoProvider from './Structures/Database/MongoProvider';
+import { AxonOptions, ADBProvider } from 'axoncore';
+
+console.log(`Bot.ts - MongoProvider is instance of ADBProvider: ${MongoProvider.prototype instanceof ADBProvider}`);
 
 import Client from './Structures/Client';
 
@@ -52,6 +54,7 @@ const client = new Eris.Client(
         disableEvents: {
             TYPING_START: true,
         },
+        intents: 4911,
     },
 );
 

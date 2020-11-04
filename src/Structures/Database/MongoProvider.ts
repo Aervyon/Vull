@@ -5,58 +5,18 @@ import {
     updateDBVal,
     AxonClient,
 } from 'AxonCore';
-import { Model } from 'mongoose';
 import GuildSchema, { Guild } from './Mongo_Models/GuildSchema';
-import AxonSchema, { Axon } from './Mongo_Models/AxonSchema';
+import AxonSchema from './Mongo_Models/AxonSchema';
 
-/**
- * @typedef {import('../AxonOptions').default} AxonOptions
- * @typedef {import('./Mongo/AxonSchema').default} AxonSchema
- * @typedef {import('./Mongo/GuildSchema').default<GuildDocument>} GuildSchema
- * @typedef {import('mongoose').Document} Document
- * @typedef {String|Boolean|Object.<string, any>|Array<any>|Number|Date} updateDBVal
- * @typedef {{
- * id: String, prefix: String, createdAt: Date, updatedAt: Date, bannedUsers: Array<String>, bannedGuilds: Array<String>
- * }} AxonConfigRaw
- * @typedef {{
- * guildID: string, prefixes: Array<String>, createdAt: Date, updatedAt: Date, modules: Array<String>, commands: Array<String>, listeners: Array<String>,
- * ignoredUsers: Array<String>, ignoredRoles: Array<String>, ignoredChannels: Array<String>, modOnly: Boolean, modRoles: Array<String>, modUsers: Array<String>
- * }} GuildConfigRaw
- * @typedef {Document & GuildConfigRaw} GuildDocument
- */
-
-/**
- * DB interface to interact with a MongoDB Database.
- *
- * @author KhaaZ
- *
- * @class MongoProvider
- * @extends ADBProvider
- *
- * @prop {AxonSchema} AxonSchema
- * @prop {GuildSchema} GuildSchema
- */
 export class MongoProvider extends ADBProvider {
-    public AxonSchema: Model<Axon>;
-
-    public GuildSchema: Model<Guild>;
-
     constructor(axon: AxonClient) {
         super(axon, 2);
-        this.AxonSchema = AxonSchema;
-        this.GuildSchema = GuildSchema;
     }
 
     // **** INIT **** //
 
-    /**
-     * Initialises a default Axon config.
-     *
-     * @returns {Promise<AxonConfig>} Newly created Axon config from the DB
-     * @memberof MongoProvider
-     */
     async initAxon(): Promise<AxonConfig> {
-        const data = await this.AxonSchema.findOneAndUpdate( {
+        const data = await AxonSchema.findOneAndUpdate( {
             id: '1',
         },
         {
@@ -73,17 +33,8 @@ export class MongoProvider extends ADBProvider {
         return new this.AxonConfig(this.axon, data);
     }
 
-    /**
-     * Initialises a default Guild config.
-     * Use default AxonClient prefix settings when creating the new guild config.
-     *
-     * @param {String} gID - Guild ID
-     *
-     * @returns {Promise<GuildConfig|null>} Newly created Guild config from the DB
-     * @memberof MongoProvider
-     */
     async initGuild(gID: string): Promise<GuildConfig> {
-        const data = await this.GuildSchema.findOneAndUpdate( {
+        const data = await GuildSchema.findOneAndUpdate( {
             guildID: gID,
         },
         {
@@ -102,64 +53,30 @@ export class MongoProvider extends ADBProvider {
 
     // **** FETCHERS **** //
 
-    /**
-     * Retrieves the axon config from the DB
-     *
-     * @returns {Promise<AxonConfig|null>} AxonSchema Object or null
-     * @memberof MongoProvider
-     */
     async fetchAxon(): Promise<AxonConfig | null> {
-        const data = await this.AxonSchema.findOne( {
+        const data = await AxonSchema.findOne( {
             id: '1',
         } ).lean().exec();
         return data && new this.AxonConfig(this.axon, data);
     }
 
-    /**
-     * Retrieves the Guild config for the specified guild.
-     *
-     * @param {String} gID - Guild ID
-     * @returns {Promise<GuildConfig|null>}
-     * @memberof MongoProvider
-     */
     async fetchGuild(gID: string): Promise<GuildConfig | null> {
-        const data = await this.GuildSchema.findOne( {
+        const data = await GuildSchema.findOne( {
             guildID: gID,
         } ).lean().exec();
         return data && new this.GuildConfig(this.axon, data);
     }
 
-    /**
-     * Retrieves the Guild **Document** for the specified guild.
-     * Does not lean and returns the actual mongoose Document.
-     * MongoProvider specific method.
-     *
-     * @param {String} gID - Guild ID
-     * @returns {Promise<GuildDocument|null>} GuildDocument or null
-     * @memberof MongoProvider
-     */
     fetchGuildDocument(gID: string): Promise<Guild|null> {
-        return this.GuildSchema.findOne( {
+        return GuildSchema.findOne( {
             guildID: gID,
         } ).exec();
     }
 
     // **** UPDATES **** //
 
-    
-    /**
-     * Update AxonConfig in the DB.
-     * Update the specific key with the value given as second parameters.
-     * Generic method to update Database.
-     *
-     * @param {String} key - The identifier in the Database
-     * @param {updateDBVal} value - The value to update in the DB
-     * @returns {Promise<Boolean>} Whether the request was successful or not
-     *
-     * @memberof MongoProvider
-     */
     async updateAxon(key: string, value: updateDBVal): Promise<boolean> {
-        const out = <{nModified: number; n: number; ok: number; } | null><unknown>(await this.AxonSchema.updateOne( {
+        const out = <{nModified: number; n: number; ok: number; } | null><unknown>(await AxonSchema.updateOne( {
             id: '1',
         },
         {
@@ -171,21 +88,8 @@ export class MongoProvider extends ADBProvider {
         return !!(out && out.nModified);
     }
 
-    /**
-     * Update GuildConfig in the DB.
-     * Update the specific key with the value given as third parameters.
-     * Specify the guild with the guild ID.
-     * Generic method to update Database.
-     *
-     * @param {String} key - The identifier in the Database
-     * @param {String} gID - The guild ID to update
-     * @param {updateDBVal} value - The value to update in the DB
-     * @returns {Promise<Boolean>} Whether the request was successful or not
-     *
-     * @memberof MongoProvider
-     */
     async updateGuild(key: string, gID: string, value: updateDBVal): Promise<boolean> {
-        const out = <{nModified: number; n: number; ok: number; } | null><unknown>(await this.GuildSchema.updateOne( {
+        const out = <{nModified: number; n: number; ok: number; } | null><unknown>(await GuildSchema.updateOne( {
             guildID: gID,
         },
         {
@@ -197,17 +101,10 @@ export class MongoProvider extends ADBProvider {
         return !!(out && out.nModified);
     }
 
-    /**
-     * Updates the Axon config in the DB with a new Axon config object.
-     *
-     * @param {AxonConfig|AxonConfigRaw} data - the schema object to update
-     * @returns {Promise<AxonConfig|null>} Updated AxonConfig from the DB
-     * @memberof MongoProvider
-     */
     async saveAxon(data: AxonConfig): Promise<AxonConfig|null> {
         data.updatedAt = new Date();
 
-        const res = await this.AxonSchema.findOneAndUpdate( {
+        const res = await AxonSchema.findOneAndUpdate( {
             id: '1',
         },
         data,
@@ -220,18 +117,10 @@ export class MongoProvider extends ADBProvider {
         return res && new this.AxonConfig(this.axon, res);
     }
 
-    /**
-     * Updates the given guild in the DB with a new schema object.
-     *
-     * @param {String} gID - Guid id
-     * @param {GuildConfig|GuildConfigRaw} data - the schema object to update
-     * @returns {Promise<GuildConfig|null>} Updated GuildConfig from the DB
-     * @memberof MongoProvider
-     */
     async saveGuild(gID: string, data: GuildConfig): Promise<GuildConfig|null> {
         data.updatedAt = new Date();
 
-        const res = await this.GuildSchema.findOneAndUpdate( {
+        const res = await GuildSchema.findOneAndUpdate( {
             guildID: gID,
         },
         data,
@@ -244,5 +133,7 @@ export class MongoProvider extends ADBProvider {
         return res && new this.GuildConfig(this.axon, res);
     }
 }
+
+console.log(`MongoProvider.ts - MongoProvider is instance of ADBProvider: ${MongoProvider.prototype instanceof ADBProvider}`);
 
 export default MongoProvider;
